@@ -1,4 +1,4 @@
-package com.project.organization;
+package com.project.opportunities;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
