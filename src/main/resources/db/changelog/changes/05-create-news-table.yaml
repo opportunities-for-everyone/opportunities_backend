@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: create=news_table
+      author: shastkiv
+      changes:
+        - createTable:
+            tableName: news
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: author_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: title
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: content
+                  type: text
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: create_time
+                  type: datetime
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: news
+            baseColumnNames: author_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_news_user
