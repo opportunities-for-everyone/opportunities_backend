@@ -69,4 +69,12 @@ public class GlobalExceptionHandler {
         errorResponse.put("error", exception.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CloudinaryUploadPhotoException.class)
+    public ResponseEntity<Map<String, String>> handleCloudinaryUploadPhotoException(
+            CloudinaryUploadPhotoException exception) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

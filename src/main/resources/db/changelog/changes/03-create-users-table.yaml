@@ -40,8 +40,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: photo_url
-                  type: varchar(255)
+                  name: avatar_id
+                  type: bigint
                   constraints:
                     nullable: false
               - column:
@@ -50,3 +50,10 @@ databaseChangeLog:
                   defaultValueBoolean: false
                   constraints:
                     nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: avatar_id
+            referencedTableName: images
+            referencedColumnNames: id
+            constraintName: fk_users_images

@@ -4,6 +4,7 @@ import com.project.opportunities.validation.matcher.PasswordMatcher;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 @PasswordMatcher
 public record UserRegistrationRequestDto(
@@ -26,7 +27,5 @@ public record UserRegistrationRequestDto(
         @NotBlank
         @Length(max = 30)
         String middleName,
-        @NotBlank
-        @Length(max = 255)
-        String photoUrl) {
+        MultipartFile avatar) {
 }
