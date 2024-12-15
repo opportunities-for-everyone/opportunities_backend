@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.HashSet;
@@ -45,8 +46,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String middleName;
 
-    @Column(nullable = false)
-    private String photoUrl;
+    @OneToOne
+    @JoinColumn(name = "avatar_id", nullable = false)
+    private Image avatar;
 
     @ManyToMany
     @JoinTable(

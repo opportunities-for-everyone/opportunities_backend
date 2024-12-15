@@ -8,5 +8,6 @@ public record NewsResponseDto(
         UserResponseDto author,
         String title,
         String content,
-        LocalDateTime createTime) {
+        LocalDateTime createTime,
+        String coverImageUrl) {
 }

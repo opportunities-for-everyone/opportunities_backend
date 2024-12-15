@@ -5,11 +5,14 @@ import com.project.opportunities.dto.user.UserResponseDto;
 import com.project.opportunities.exception.EntityNotFoundException;
 import com.project.opportunities.exception.RegistrationException;
 import com.project.opportunities.mapper.UserMapper;
+import com.project.opportunities.model.Image;
 import com.project.opportunities.model.Role;
 import com.project.opportunities.model.User;
 import com.project.opportunities.repository.RoleRepository;
 import com.project.opportunities.repository.UserRepository;
+import com.project.opportunities.service.ImageService;
 import com.project.opportunities.service.UserService;
+import jakarta.transaction.Transactional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -23,7 +26,9 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final ImageService imageService;
 
+    @Transactional
     @Override
     public UserResponseDto register(UserRegistrationRequestDto registrationRequestDto) {
         if (userRepository.existsByEmail(registrationRequestDto.email())) {
@@ -38,6 +43,10 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Role ADMIN not found!")),
                 roleRepository.findByRoleName(Role.RoleName.ROLE_EDITOR)
                         .orElseThrow(() -> new EntityNotFoundException("Role EDITOR not found!"))));
+        Image image = imageService.uploadImage(
+                registrationRequestDto.avatar(),
+                Image.ImageType.TEAM_MEMBER_AVATAR_IMAGE);
+        user.setAvatar(image);
         userRepository.save(user);
         return userMapper.toDto(user);
     }
