@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db/changelog/changes/05-create-news-table.yaml
   - include:
       file: db/changelog/changes/06-insert-basic-roles.yaml
+  - include:
+      file: db/changelog/changes/07-create-projects-table.yaml
