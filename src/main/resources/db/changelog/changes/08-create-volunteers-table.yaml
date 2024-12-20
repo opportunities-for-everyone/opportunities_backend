@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-volunteers-table
+      author: shastkiv
+      changes:
+        - createTable:
+            tableName: volunteers
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: first_name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: middle_name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: avatar_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: volunteers
+            baseColumnNames: avatar_id
+            referencedTableName: images
+            referencedColumnNames: id
+            constraintName: fk_volunteers_images
