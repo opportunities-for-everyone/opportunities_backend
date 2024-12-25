@@ -1,8 +1,10 @@
 package com.project.opportunities.service;
 
 import com.project.opportunities.dto.project.CreateProjectRequestDto;
+import com.project.opportunities.dto.project.DonateProjectRequestDto;
 import com.project.opportunities.dto.project.ProjectResponseDto;
 import com.project.opportunities.dto.project.UpdateProjectStatusDto;
+import java.math.BigDecimal;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,4 +21,8 @@ public interface ProjectService {
 
     ProjectResponseDto updateProjectStatus(Long id,
                                            UpdateProjectStatusDto statusDto);
+
+    String acceptDonation(Long projectId, DonateProjectRequestDto requestDto);
+
+    void updateCollectedAmount(Long projectId, BigDecimal amount);
 }
