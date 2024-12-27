@@ -21,4 +21,9 @@ jobs:
           CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
           JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          LIQPAY_PUBLIC_KEY: ${{ secrets.LIQPAY_PUBLIC_KEY }}
+          LIQPAY_PRIVATE_KEY: ${{ secrets.LIQPAY_PRIVATE_KEY }}
+          LIQPAY_CALLBACK_URL: ${{ secrets. LIQPAY_CALLBACK_URL}}
+          LIQPAY_IS_SANDBOX: ${{ secrets. LIQPAY_IS_SANDBOX}}
+
         run: mvn --batch-mode --update-snapshots verify
