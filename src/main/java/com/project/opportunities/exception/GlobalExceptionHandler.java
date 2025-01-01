@@ -94,4 +94,12 @@ public class GlobalExceptionHandler {
         errorResponse.put("error", exception.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(DonationProcessingException.class)
+    public ResponseEntity<Map<String, String>> handleDonationProcessingException(
+            DonationProcessingException exception) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

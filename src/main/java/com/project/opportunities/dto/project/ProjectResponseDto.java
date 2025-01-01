@@ -9,6 +9,7 @@ public record ProjectResponseDto(
         String name,
         String description,
         BigDecimal goalAmount,
+        BigDecimal collectedAmount,
         LocalDate deadline,
         Project.ProjectStatus status,
         String imageUrl

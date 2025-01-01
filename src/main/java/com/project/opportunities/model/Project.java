@@ -39,6 +39,9 @@ public class Project {
     private BigDecimal goalAmount;
 
     @Column(nullable = false)
+    private BigDecimal collectedAmount = BigDecimal.ZERO;
+
+    @Column(nullable = false)
     private LocalDate deadline;
 
     @Column(nullable = false)
