@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-donations-table
+      author: shastkiv
+      changes:
+        - createTable:
+            tableName: donations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: amount
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: donation_type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: donation_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: donor_name
+                  type: varchar(50)
+              - column:
+                  name: donor_email
+                  type: varchar(50)

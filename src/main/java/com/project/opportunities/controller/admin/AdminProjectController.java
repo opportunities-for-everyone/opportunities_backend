@@ -1,17 +1,27 @@
 package com.project.opportunities.controller.admin;
 
+import com.project.opportunities.dto.donation.ProjectDonationDto;
 import com.project.opportunities.dto.project.CreateProjectRequestDto;
 import com.project.opportunities.dto.project.ProjectResponseDto;
 import com.project.opportunities.dto.project.UpdateProjectStatusDto;
 import com.project.opportunities.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,5 +87,48 @@ public class AdminProjectController {
             @PathVariable Long id,
             @RequestBody @Valid UpdateProjectStatusDto statusDto) {
         return projectService.updateProjectStatus(id, statusDto);
+    }
+
+    @Operation(
+            summary = "Get project donations",
+            description = "Retrieves a paginated list of donations for a specific project",
+            security = { @SecurityRequirement(name = "bearerAuth") },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved project donations",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Project not found"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Access denied"
+                    )
+            }
+    )
+    @Parameters({
+            @Parameter(
+                    name = "pageable",
+                    description = "Pagination parameters (page, size, sort)",
+                    in = ParameterIn.QUERY
+            ),
+            @Parameter(
+                    name = "id",
+                    description = "Project ID",
+                    required = true,
+                    in = ParameterIn.PATH
+            )
+    })
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/{id}/donations")
+    public Page<ProjectDonationDto> getProjectDonations(
+            @ParameterObject @PageableDefault Pageable pageable,
+            @PathVariable Long id) {
+        return projectService.getProjectDonations(id, pageable);
     }
 }

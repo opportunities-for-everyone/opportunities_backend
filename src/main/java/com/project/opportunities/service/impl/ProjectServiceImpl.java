@@ -1,17 +1,23 @@
 package com.project.opportunities.service.impl;
 
+import com.project.opportunities.dto.donation.AdditionalPaymentResponseDto;
+import com.project.opportunities.dto.donation.CreateDonateDto;
+import com.project.opportunities.dto.donation.PaymentResponseDto;
+import com.project.opportunities.dto.donation.ProjectDonationDto;
 import com.project.opportunities.dto.project.CreateProjectRequestDto;
-import com.project.opportunities.dto.project.DonateProjectRequestDto;
 import com.project.opportunities.dto.project.ProjectResponseDto;
 import com.project.opportunities.dto.project.UpdateProjectStatusDto;
 import com.project.opportunities.exception.DonationProcessingException;
 import com.project.opportunities.exception.EntityNotFoundException;
+import com.project.opportunities.mapper.ProjectDonationMapper;
 import com.project.opportunities.mapper.ProjectMapper;
 import com.project.opportunities.model.Image;
 import com.project.opportunities.model.Project;
+import com.project.opportunities.model.ProjectDonation;
+import com.project.opportunities.repository.ProjectDonationRepository;
 import com.project.opportunities.repository.ProjectRepository;
-import com.project.opportunities.service.DonateGenerationService;
 import com.project.opportunities.service.ImageService;
+import com.project.opportunities.service.PaymentGenerationService;
 import com.project.opportunities.service.ProjectService;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
@@ -24,9 +30,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
+    private final ProjectDonationRepository projectDonationRepository;
+    private final ProjectDonationMapper projectDonationMapper;
     private final ProjectMapper projectMapper;
     private final ImageService imageService;
-    private final DonateGenerationService donateGenerationService;
+    private final PaymentGenerationService paymentGenerationService;
 
     @Override
     public ProjectResponseDto getProjectById(Long id) {
@@ -72,19 +80,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public String acceptDonation(Long projectId, DonateProjectRequestDto requestDto) {
+    public String acceptDonation(Long projectId, CreateDonateDto requestDto) {
         Project projectById = findProjectById(projectId);
         if (!projectById.getStatus().equals(Project.ProjectStatus.ACTIVE)) {
             throw new DonationProcessingException(
                     "Project with ID: " + projectId + " not active.");
         }
-        String donationId = "projectID_" + projectId + "_" + System.currentTimeMillis();
-        return donateGenerationService.generatePaymentForm(
-                requestDto.amount().doubleValue(),
-                requestDto.currency(),
-                "Благодійний внесок на проект ID:%s".formatted(projectId),
-                donationId
-        );
+        return paymentGenerationService.getProjectPaymentForm(requestDto, projectId);
     }
 
     @Override
@@ -94,6 +96,24 @@ public class ProjectServiceImpl implements ProjectService {
                 projectById.getCollectedAmount().add(amount));
         checkStatus(projectById);
         projectRepository.save(projectById);
+    }
+
+    @Override
+    public void processDonation(PaymentResponseDto paymentResponseDto,
+                                AdditionalPaymentResponseDto additionalPaymentResponseDto) {
+        Project projectById = findProjectById(
+                Long.valueOf(additionalPaymentResponseDto.donationId()));
+        updateCollectedAmount(projectById.getId(), paymentResponseDto.amount());
+        ProjectDonation projectDonation = projectDonationMapper.toProjectDonation(
+                paymentResponseDto, additionalPaymentResponseDto);
+        projectDonation.setProject(projectById);
+        projectDonationRepository.save(projectDonation);
+    }
+
+    @Override
+    public Page<ProjectDonationDto> getProjectDonations(Long id, Pageable pageable) {
+        return projectDonationRepository.findAllByProject_Id(id, pageable)
+                .map(projectDonationMapper::toProjectDonationDto);
     }
 
     private void checkStatus(Project project) {

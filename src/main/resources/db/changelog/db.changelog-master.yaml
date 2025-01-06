@@ -17,3 +17,11 @@ databaseChangeLog:
       file: db/changelog/changes/08-create-volunteers-table.yaml
   - include:
       file: db/changelog/changes/09-add-collected_amount-column-to-projects-table.yaml
+  - include:
+      file: db/changelog/changes/10-create-partners-table.yaml
+  - include:
+      file: db/changelog/changes/11-create-directors-table.yaml
+  - include:
+      file: db/changelog/changes/12-create-donations-table.yaml
+  - include:
+      file: db/changelog/changes/13-create-project_donations-table.yaml
