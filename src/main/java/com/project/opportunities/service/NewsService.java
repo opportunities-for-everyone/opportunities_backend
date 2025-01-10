@@ -22,4 +22,6 @@ public interface NewsService {
     NewsResponseDto updateNewsContent(Long id, NewsUpdateRequestDto requestDto);
 
     NewsResponseDto updateNewsImage(Long id, NewsUpdateImageDto requestDto);
+
+    void deleteNews(Long id);
 }

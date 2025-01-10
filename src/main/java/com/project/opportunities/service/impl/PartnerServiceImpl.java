@@ -14,6 +14,7 @@ import com.project.opportunities.repository.PartnerRepository;
 import com.project.opportunities.service.ImageService;
 import com.project.opportunities.service.PartnerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PartnerServiceImpl implements PartnerService {
     private final PartnerMapper partnerMapper;
     private final DirectorMapper directorMapper;
@@ -29,7 +31,9 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public PartnerAllInfoDto addPartner(CreatePartnerRequestDto requestDto) {
+        log.info("Creating a new partner with status: ACTIVE");
         Partner partner = createPartner(requestDto, Partner.PartnerStatus.ACTIVE);
+        log.info("Partner created successfully with ID: {}", partner.getId());
         return partnerMapper.toAllInfoDto(partner);
     }
 
@@ -46,16 +50,20 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public void submitPartnerApplication(CreatePartnerRequestDto requestDto) {
-        createPartner(requestDto, Partner.PartnerStatus.PENDING);
+        log.info("Submitting a new partner application with status: PENDING");
+        Partner partner = createPartner(requestDto, Partner.PartnerStatus.PENDING);
+        log.info("Partner application submitted successfully with ID: {}", partner.getId());
     }
 
     @Override
     public PartnerAllInfoDto updatePartnerStatus(
             Long id,
             UpdatePartnerStatusRequestDto requestDto) {
+        log.info("Updating status for partner with ID: {} to {}", id, requestDto.status());
         Partner partner = findPartner(id);
         partner.setPartnerStatus(requestDto.status());
         partnerRepository.save(partner);
+        log.info("Partner status updated successfully for ID: {}", id);
         return partnerMapper.toAllInfoDto(partner);
     }
 
@@ -73,13 +81,16 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     private Partner findPartner(Long id) {
-        return partnerRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Partner with id " + id + " not found")
-        );
+        return partnerRepository.findById(id).orElseThrow(() -> {
+            log.error("Partner not found with ID: {}", id);
+            return new EntityNotFoundException("Partner with id " + id + " not found");
+        });
     }
 
     private Partner createPartner(CreatePartnerRequestDto requestDto,
                                   Partner.PartnerStatus partnerStatus) {
+        log.info("Creating partner with name: {}, status: {}",
+                requestDto.partnerName(), partnerStatus);
         Partner partner = partnerMapper.toPartner(requestDto);
         Image partnerLogo = uploadLogo(requestDto.logo());
         Director director = directorMapper.toDirector(requestDto);
@@ -89,6 +100,8 @@ public class PartnerServiceImpl implements PartnerService {
         partner.setLogo(partnerLogo);
         partner.setPartnerStatus(partnerStatus);
 
-        return partnerRepository.save(partner);
+        Partner savedPartner = partnerRepository.save(partner);
+        log.info("Partner created and saved to the database with ID: {}", savedPartner.getId());
+        return savedPartner;
     }
 }

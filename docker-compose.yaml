@@ -1,9 +1,11 @@
+version: '3.7'
+
 services:
   postgres:
     image: postgres:15
     container_name: postgres_container
     ports:
-      -  ${POSTGRESQL_LOCAL_PORT}:${POSTGRESQL_DOCKER_PORT}
+      - ${POSTGRESQL_LOCAL_PORT}:${POSTGRESQL_DOCKER_PORT}
     environment:
       POSTGRES_USER: ${POSTGRESQL_USER}
       POSTGRES_PASSWORD: ${POSTGRESQL_ROOT_PASSWORD}
@@ -13,6 +15,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
   app:
     depends_on:
       - postgres
