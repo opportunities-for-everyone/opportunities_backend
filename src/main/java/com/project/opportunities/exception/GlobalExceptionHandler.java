@@ -96,6 +96,7 @@ public class GlobalExceptionHandler {
         errorResponse.put("error", exception.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
+
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<Map<String, String>> handleHttpRequestMethodNotSupportedException(
             HttpRequestMethodNotSupportedException exception) {
@@ -104,4 +105,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(JwtAuthenticationException.class)
+    public ResponseEntity<Map<String, String>> handleJwtAuthenticationException(
+            JwtAuthenticationException exception) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

@@ -76,7 +76,7 @@
     </logger>
 
     <logger name="com.project.opportunities.security" level="INFO" additivity="false">
-        <appender-ref ref="ApplicationFile" />
+        <appender-ref ref="AuthFile" />
         <appender-ref ref="Console" />
     </logger>
 

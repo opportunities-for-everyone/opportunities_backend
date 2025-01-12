@@ -93,7 +93,9 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public void deleteNews(Long id) {
+        log.info("Attempting to delete news. ID: {}", id);
         findNewsById(id);
         newsRepository.deleteById(id);
+        log.info("News deleted successfully. ID: {}", id);
     }
 }
