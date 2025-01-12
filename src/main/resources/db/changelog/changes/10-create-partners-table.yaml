@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-partners-table
+      author: shastkiv
+      changes:
+        - createTable:
+            tableName: partners
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: partner_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cooperation_goal
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: site_url
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: legal_address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: identification_code
+                  type: varchar(8)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: partner_type
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: partner_status
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: logo_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: partners
+            baseColumnNames: logo_id
+            referencedTableName: images
+            referencedColumnNames: id
+            constraintName: fk_partners_images

@@ -15,6 +15,7 @@ import com.project.opportunities.service.UserService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
     private final NewsMapper newsMapper;
@@ -32,6 +34,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public NewsResponseDto createNews(NewsCreateRequestDto createRequestDto,
                                       Authentication authentication) {
+        log.info("Creating news with title: {}", createRequestDto.title());
         News news = newsMapper.toModel(createRequestDto);
         news.setCreateTime(LocalDateTime.now());
         Image coverImage = imageService.uploadImage(
@@ -39,6 +42,8 @@ public class NewsServiceImpl implements NewsService {
                 Image.ImageType.NEWS_IMAGE);
         news.setCoverImage(coverImage);
         News saved = newsRepository.save(news);
+        log.info("News created successfully. ID: {}, Title: {}",
+                saved.getId(), saved.getTitle());
         return newsMapper.toDto(saved);
     }
 
@@ -55,25 +60,42 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public News findNewsById(Long id) {
-        return newsRepository.findById(id).orElseThrow(()
-                -> new EntityNotFoundException("Can t find news by id: " + id));
+        return newsRepository.findById(id).orElseThrow(() -> {
+            log.error("News not found by ID: {}", id);
+            return new EntityNotFoundException("Can't find news by id: " + id);
+        });
     }
 
     @Override
     public NewsResponseDto updateNewsContent(Long id, NewsUpdateRequestDto requestDto) {
+        log.info("Updating news content. ID: {}", id);
         News newsById = findNewsById(id);
         newsMapper.updateNewsFromDto(requestDto, newsById);
-        return newsMapper.toDto(newsRepository.save(newsById));
+        News saved = newsRepository.save(newsById);
+        log.info("News content updated successfully. ID: {}, Title: {}",
+                saved.getId(), saved.getTitle());
+        return newsMapper.toDto(saved);
     }
 
     @Override
     public NewsResponseDto updateNewsImage(Long id, NewsUpdateImageDto requestDto) {
+        log.info("Updating news image. ID: {}", id);
         News news = findNewsById(id);
         Image updatedImage = imageService.uploadImage(
                 requestDto.coverImage(),
                 Image.ImageType.NEWS_IMAGE);
         news.setCoverImage(updatedImage);
-        News saved = newsRepository.save(news);
-        return newsMapper.toDto(saved);
+        newsRepository.save(news);
+        log.info("News image updated successfully. ID: {}, New Image URL: {}",
+                news.getId(), updatedImage.getUrlImage());
+        return newsMapper.toDto(news);
+    }
+
+    @Override
+    public void deleteNews(Long id) {
+        log.info("Attempting to delete news. ID: {}", id);
+        findNewsById(id);
+        newsRepository.deleteById(id);
+        log.info("News deleted successfully. ID: {}", id);
     }
 }

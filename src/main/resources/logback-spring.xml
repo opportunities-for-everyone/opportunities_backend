@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOGS" value="./logs" />
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{ISO8601} %highlight(%-5level) [%blue(%t)] %yellow(%C{1}): %msg%n%throwable</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ApplicationFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/application.log</file>
+        <encoder>
+            <pattern>%d{ISO8601} %-5level [%t] %C{1}: %msg%n%throwable</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/archived/application-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="PaymentFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/payments.log</file>
+        <encoder>
+            <pattern>%d{ISO8601} %-5level [%t] %C{1}: %msg%n%throwable</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/archived/payments-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="CloudinaryFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/cloudinary.log</file>
+        <encoder>
+            <pattern>%d{ISO8601} %-5level [%t] %C{1}: %msg%n%throwable</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/archived/cloudinary-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="AuthFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/auth.log</file>
+        <encoder>
+            <pattern>%d{ISO8601} %-5level [%t] %C{1}: %msg%n%throwable</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/archived/auth-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.project.opportunities.service.payment" level="DEBUG" additivity="false">
+        <appender-ref ref="PaymentFile" />
+        <appender-ref ref="Console" />
+    </logger>
+
+    <logger name="com.project.opportunities.controller.quest.AuthenticationController" level="DEBUG" additivity="false">
+        <appender-ref ref="AuthFile" />
+        <appender-ref ref="Console" />
+    </logger>
+
+    <logger name="com.project.opportunities.service.impl.CloudinaryServiceImpl" level="DEBUG" additivity="false">
+        <appender-ref ref="CloudinaryFile" />
+        <appender-ref ref="Console" />
+    </logger>
+
+    <logger name="com.project.opportunities.security" level="INFO" additivity="false">
+        <appender-ref ref="AuthFile" />
+        <appender-ref ref="Console" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="ApplicationFile" />
+        <appender-ref ref="Console" />
+    </root>
+</configuration>

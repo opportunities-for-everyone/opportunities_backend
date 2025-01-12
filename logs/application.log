@@ -1,0 +1,105 @@
+2025-01-10 18:32:54,368 INFO  [background-preinit] o.h.v.i.u.Version: HV000001: Hibernate Validator 8.0.1.Final
+2025-01-10 18:32:54,399 INFO  [main] o.s.b.StartupInfoLogger: Starting OrganizationApplicationTests using Java 23.0.1 with PID 25964 (started by Admin in C:\Users\Admin\IdeaProjects\organization)
+2025-01-10 18:32:54,401 INFO  [main] o.s.b.SpringApplication: No active profile set, falling back to 1 default profile: "default"
+2025-01-10 18:32:55,666 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-10 18:32:55,802 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate: Finished Spring Data repository scanning in 123 ms. Found 9 JPA repository interfaces.
+2025-01-10 18:32:56,545 INFO  [main] c.z.h.HikariDataSource: HikariPool-1 - Starting...
+2025-01-10 18:32:56,665 INFO  [main] o.t.u.ImageNameSubstitutor: Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2025-01-10 18:32:57,030 INFO  [main] o.t.d.DockerClientProviderStrategy: Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2025-01-10 18:32:57,491 INFO  [main] o.t.d.DockerClientProviderStrategy: Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2025-01-10 18:32:57,493 INFO  [main] o.t.DockerClientFactory: Docker host IP address is localhost
+2025-01-10 18:32:57,519 INFO  [main] o.t.DockerClientFactory: Connected to docker: 
+  Server Version: 27.4.0
+  API Version: 1.47
+  Operating System: Docker Desktop
+  Total Memory: 15871 MB
+2025-01-10 18:32:57,663 INFO  [main] o.t.c.GenericContainer: Creating container for image: testcontainers/ryuk:0.4.0
+2025-01-10 18:32:57,867 INFO  [main] o.t.c.GenericContainer: Container testcontainers/ryuk:0.4.0 is starting: 8b9e3a9c597dfdf7ddbd401c58b3bef8c70362982e79f8b6bbb04d42692802c9
+2025-01-10 18:32:58,343 INFO  [main] o.t.c.GenericContainer: Container testcontainers/ryuk:0.4.0 started in PT0.8115543S
+2025-01-10 18:32:58,350 INFO  [main] o.t.u.RyukResourceReaper: Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2025-01-10 18:32:58,351 INFO  [main] o.t.DockerClientFactory: Checking the system...
+2025-01-10 18:32:58,352 INFO  [main] o.t.DockerClientFactory: ✔︎ Docker server version should be at least 1.6.0
+2025-01-10 18:32:58,353 INFO  [main] o.t.c.GenericContainer: Creating container for image: postgres:15
+2025-01-10 18:32:58,486 INFO  [main] o.t.c.GenericContainer: Container postgres:15 is starting: 7b6c50023e7462134c51dfd964a18a69ba55d4211f526b10707b1512559283b6
+2025-01-10 18:32:59,981 INFO  [main] o.t.c.GenericContainer: Container postgres:15 started in PT1.6280405S
+2025-01-10 18:32:59,982 INFO  [main] o.t.c.JdbcDatabaseContainer: Container is started (JDBC URL: jdbc:postgresql://localhost:60393/test?loggerLevel=OFF)
+2025-01-10 18:33:00,170 INFO  [main] c.z.h.p.HikariPool: HikariPool-1 - Added connection org.testcontainers.jdbc.ConnectionWrapper@35d88a54
+2025-01-10 18:33:00,172 INFO  [main] c.z.h.HikariDataSource: HikariPool-1 - Start completed.
+2025-01-10 18:33:00,603 INFO  [main] l.l.c.JavaLogger: Set default schema name to public
+2025-01-10 18:33:01,173 INFO  [main] l.l.c.JavaLogger: Creating database history table with name: public.databasechangelog
+2025-01-10 18:33:01,214 INFO  [main] l.l.c.JavaLogger: Reading from public.databasechangelog
+2025-01-10 18:33:01,370 INFO  [main] l.l.c.JavaLogger: Successfully acquired change log lock
+2025-01-10 18:33:01,373 INFO  [main] l.l.c.JavaLogger: Using deploymentId: 6526781373
+2025-01-10 18:33:01,376 INFO  [main] l.l.c.JavaLogger: Reading from public.databasechangelog
+2025-01-10 18:33:01,422 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/01-create-images-table.yaml::create-images-table::shastkiv
+2025-01-10 18:33:01,436 INFO  [main] l.l.c.JavaLogger: Table images created
+2025-01-10 18:33:01,440 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/01-create-images-table.yaml::create-images-table::shastkiv ran successfully in 15ms
+2025-01-10 18:33:01,450 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/02-create-roles-table.yaml::create-roles-table::shastkiv
+2025-01-10 18:33:01,456 INFO  [main] l.l.c.JavaLogger: Table roles created
+2025-01-10 18:33:01,459 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/02-create-roles-table.yaml::create-roles-table::shastkiv ran successfully in 7ms
+2025-01-10 18:33:01,466 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/03-create-users-table.yaml::create-users-table::shastkiv
+2025-01-10 18:33:01,476 INFO  [main] l.l.c.JavaLogger: Table users created
+2025-01-10 18:33:01,480 INFO  [main] l.l.c.JavaLogger: Foreign key constraint added to users (avatar_id)
+2025-01-10 18:33:01,482 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/03-create-users-table.yaml::create-users-table::shastkiv ran successfully in 15ms
+2025-01-10 18:33:01,487 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/04-create-users_roles-table.yaml::create-users-roles-table::shastkiv
+2025-01-10 18:33:01,493 INFO  [main] l.l.c.JavaLogger: Table users_roles created
+2025-01-10 18:33:01,496 INFO  [main] l.l.c.JavaLogger: Primary key added to users_roles (user_id,role_id)
+2025-01-10 18:33:01,498 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/04-create-users_roles-table.yaml::create-users-roles-table::shastkiv ran successfully in 10ms
+2025-01-10 18:33:01,504 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/05-create-news-table.yaml::create=news_table::shastkiv
+2025-01-10 18:33:01,510 INFO  [main] l.l.c.JavaLogger: Table news created
+2025-01-10 18:33:01,514 INFO  [main] l.l.c.JavaLogger: Foreign key constraint added to news (author_id)
+2025-01-10 18:33:01,516 INFO  [main] l.l.c.JavaLogger: Foreign key constraint added to news (cover_image_id)
+2025-01-10 18:33:01,518 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/05-create-news-table.yaml::create=news_table::shastkiv ran successfully in 14ms
+2025-01-10 18:33:01,523 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/06-insert-basic-roles.yaml::insert-roles::shastkiv
+2025-01-10 18:33:01,528 INFO  [main] l.l.c.JavaLogger: New row inserted into roles
+2025-01-10 18:33:01,531 INFO  [main] l.l.c.JavaLogger: New row inserted into roles
+2025-01-10 18:33:01,532 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/06-insert-basic-roles.yaml::insert-roles::shastkiv ran successfully in 8ms
+2025-01-10 18:33:01,538 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/07-create-projects-table.yaml::create-projects-table::shastkiv
+2025-01-10 18:33:01,543 INFO  [main] l.l.c.JavaLogger: Table projects created
+2025-01-10 18:33:01,546 INFO  [main] l.l.c.JavaLogger: Foreign key constraint added to projects (image_id)
+2025-01-10 18:33:01,548 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/07-create-projects-table.yaml::create-projects-table::shastkiv ran successfully in 10ms
+2025-01-10 18:33:01,553 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/08-create-volunteers-table.yaml::create-volunteers-table::shastkiv
+2025-01-10 18:33:01,560 INFO  [main] l.l.c.JavaLogger: Table volunteers created
+2025-01-10 18:33:01,564 INFO  [main] l.l.c.JavaLogger: Foreign key constraint added to volunteers (avatar_id)
+2025-01-10 18:33:01,566 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/08-create-volunteers-table.yaml::create-volunteers-table::shastkiv ran successfully in 11ms
+2025-01-10 18:33:01,570 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/09-add-collected_amount-column-to-projects-table.yaml::add-collected_amount-column-to-projects-table.yaml::shastkiv
+2025-01-10 18:33:01,574 INFO  [main] l.l.c.JavaLogger: Columns collected_amount(DECIMAL(19,2)) added to projects
+2025-01-10 18:33:01,577 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/09-add-collected_amount-column-to-projects-table.yaml::add-collected_amount-column-to-projects-table.yaml::shastkiv ran successfully in 5ms
+2025-01-10 18:33:01,582 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/10-create-partners-table.yaml::create-partners-table::shastkiv
+2025-01-10 18:33:01,588 INFO  [main] l.l.c.JavaLogger: Table partners created
+2025-01-10 18:33:01,591 INFO  [main] l.l.c.JavaLogger: Foreign key constraint added to partners (logo_id)
+2025-01-10 18:33:01,593 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/10-create-partners-table.yaml::create-partners-table::shastkiv ran successfully in 10ms
+2025-01-10 18:33:01,598 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/11-create-directors-table.yaml::create-directors-table::shastkiv
+2025-01-10 18:33:01,603 INFO  [main] l.l.c.JavaLogger: Table directors created
+2025-01-10 18:33:01,606 INFO  [main] l.l.c.JavaLogger: Foreign key constraint added to directors (id)
+2025-01-10 18:33:01,607 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/11-create-directors-table.yaml::create-directors-table::shastkiv ran successfully in 9ms
+2025-01-10 18:33:01,612 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/12-create-donations-table.yaml::create-donations-table::shastkiv
+2025-01-10 18:33:01,617 INFO  [main] l.l.c.JavaLogger: Table donations created
+2025-01-10 18:33:01,619 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/12-create-donations-table.yaml::create-donations-table::shastkiv ran successfully in 6ms
+2025-01-10 18:33:01,623 INFO  [main] l.l.c.JavaLogger: Running Changeset: db/changelog/changes/13-create-project_donations-table.yaml::create-projects_donations-table::shastkiv
+2025-01-10 18:33:01,628 INFO  [main] l.l.c.JavaLogger: Table project_donations created
+2025-01-10 18:33:01,629 INFO  [main] l.l.c.JavaLogger: ChangeSet db/changelog/changes/13-create-project_donations-table.yaml::create-projects_donations-table::shastkiv ran successfully in 6ms
+2025-01-10 18:33:01,638 INFO  [main] l.l.c.JavaLogger: UPDATE SUMMARY
+2025-01-10 18:33:01,638 INFO  [main] l.l.c.JavaLogger: Run:                         13
+2025-01-10 18:33:01,638 INFO  [main] l.l.c.JavaLogger: Previously run:               0
+2025-01-10 18:33:01,639 INFO  [main] l.l.c.JavaLogger: Filtered out:                 0
+2025-01-10 18:33:01,639 INFO  [main] l.l.c.JavaLogger: -------------------------------
+2025-01-10 18:33:01,639 INFO  [main] l.l.c.JavaLogger: Total change sets:           13
+2025-01-10 18:33:01,640 INFO  [main] l.l.c.JavaLogger: Update summary generated
+2025-01-10 18:33:01,643 INFO  [main] l.l.c.JavaLogger: Update command completed successfully.
+2025-01-10 18:33:01,644 INFO  [main] l.l.c.JavaLogger: Liquibase: Update has been successful. Rows affected: 15
+2025-01-10 18:33:01,648 INFO  [main] l.l.c.JavaLogger: Successfully released change log lock
+2025-01-10 18:33:01,650 INFO  [main] l.l.c.JavaLogger: Command execution complete
+2025-01-10 18:33:01,785 INFO  [main] o.h.j.i.u.LogHelper: HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-10 18:33:01,883 INFO  [main] o.h.Version: HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-01-10 18:33:01,932 INFO  [main] o.h.c.i.RegionFactoryInitiator: HHH000026: Second-level cache disabled
+2025-01-10 18:33:02,348 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo: No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-10 18:33:03,693 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-10 18:33:03,696 INFO  [main] o.s.o.j.AbstractEntityManagerFactoryBean: Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-10 18:33:04,347 INFO  [main] o.s.d.j.r.q.QueryEnhancerFactory: Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-10 18:33:04,931 INFO  [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer: Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-01-10 18:33:05,092 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-10 18:33:05,923 INFO  [main] o.s.b.StartupInfoLogger: Started OrganizationApplicationTests in 12.035 seconds (process running for 13.383)
+2025-01-10 18:33:06,530 INFO  [SpringApplicationShutdownHook] o.s.o.j.AbstractEntityManagerFactoryBean: Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-10 18:33:06,534 INFO  [SpringApplicationShutdownHook] c.z.h.HikariDataSource: HikariPool-1 - Shutdown initiated...
+2025-01-10 18:33:07,087 INFO  [SpringApplicationShutdownHook] c.z.h.HikariDataSource: HikariPool-1 - Shutdown completed.

@@ -1,6 +1,7 @@
-package com.project.opportunities.controller.quest;
+package com.project.opportunities.controller.webhook;
 
-import com.project.opportunities.service.DonateCallbackService;
+import com.project.opportunities.service.PaymentCallbackService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,11 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
         name = "LiqPay API payment controller",
         description = "Public API for interacting with the LiqPay payment service"
 )
+@Hidden
 @RestController
 @RequestMapping("/public/payment")
 @RequiredArgsConstructor
 public class PaymentController {
-    private final DonateCallbackService donateCallbackService;
+    private final PaymentCallbackService paymentCallbackService;
 
     @Operation(
             summary = "Process payment callback from LiqPay",
@@ -49,6 +51,6 @@ public class PaymentController {
     public void getDonationStatus(
             @RequestParam("data") String data,
             @RequestParam("signature") String signature) throws Exception {
-        donateCallbackService.processDonationResult(data, signature);
+        paymentCallbackService.processDonationResult(data, signature);
     }
 }

@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-collected_amount-column-to-projects-table.yaml
+      author: shastkiv
+      changes:
+        - addColumn:
+            tableName: projects
+            columns:
+              - column:
+                  name: collected_amount
+                  type: DECIMAL(19,2)
+                  constraints:
+                    nullable: false

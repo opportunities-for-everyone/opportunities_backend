@@ -1,5 +1,5 @@
 package com.project.opportunities.service;
 
-public interface DonateCallbackService {
+public interface PaymentCallbackService {
     void processDonationResult(String data, String signature) throws Exception;
 }

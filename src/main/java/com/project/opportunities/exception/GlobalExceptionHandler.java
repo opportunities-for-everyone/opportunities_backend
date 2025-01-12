@@ -1,13 +1,14 @@
 package com.project.opportunities.exception;
 
+import io.jsonwebtoken.JwtException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -56,21 +57,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Map<String, String>> handleBadCredentialsException() {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", "User email or password incorrect");
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(OrderProcessingException.class)
-    public ResponseEntity<Map<String, String>> handleEmptyShoppingCartException(
-            OrderProcessingException exception) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", exception.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(CloudinaryUploadPhotoException.class)
     public ResponseEntity<Map<String, String>> handleCloudinaryUploadPhotoException(
             CloudinaryUploadPhotoException exception) {
@@ -98,6 +84,30 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DonationProcessingException.class)
     public ResponseEntity<Map<String, String>> handleDonationProcessingException(
             DonationProcessingException exception) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<Map<String, String>> handleJwtException(
+            JwtException exception) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<Map<String, String>> handleHttpRequestMethodNotSupportedException(
+            HttpRequestMethodNotSupportedException exception) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(JwtAuthenticationException.class)
+    public ResponseEntity<Map<String, String>> handleJwtAuthenticationException(
+            JwtAuthenticationException exception) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error", exception.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
