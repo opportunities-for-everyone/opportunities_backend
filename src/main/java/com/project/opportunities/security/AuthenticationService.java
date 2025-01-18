@@ -1,7 +1,7 @@
 package com.project.opportunities.security;
 
-import com.project.opportunities.dto.user.UserLoginRequestDto;
-import com.project.opportunities.dto.user.UserLoginResponseDto;
+import com.project.opportunities.domain.dto.user.request.UserLoginRequestDto;
+import com.project.opportunities.domain.dto.user.response.UserLoginResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,6 +1,6 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.service.TelegramService;
+import com.project.opportunities.service.integration.telegram.interfaces.TelegramService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

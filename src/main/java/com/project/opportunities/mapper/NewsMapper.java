@@ -1,11 +1,11 @@
 package com.project.opportunities.mapper;
 
 import com.project.opportunities.config.MapperConfig;
-import com.project.opportunities.dto.news.NewsCreateRequestDto;
-import com.project.opportunities.dto.news.NewsResponseDto;
-import com.project.opportunities.dto.news.NewsUpdateRequestDto;
-import com.project.opportunities.model.News;
-import com.project.opportunities.model.User;
+import com.project.opportunities.domain.dto.news.request.NewsCreateRequestDto;
+import com.project.opportunities.domain.dto.news.request.NewsUpdateRequestDto;
+import com.project.opportunities.domain.dto.news.response.NewsResponseDto;
+import com.project.opportunities.domain.model.News;
+import com.project.opportunities.domain.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

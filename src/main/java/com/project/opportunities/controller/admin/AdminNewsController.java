@@ -1,10 +1,10 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.dto.news.NewsCreateRequestDto;
-import com.project.opportunities.dto.news.NewsResponseDto;
-import com.project.opportunities.dto.news.NewsUpdateImageDto;
-import com.project.opportunities.dto.news.NewsUpdateRequestDto;
-import com.project.opportunities.service.NewsService;
+import com.project.opportunities.domain.dto.news.request.NewsCreateRequestDto;
+import com.project.opportunities.domain.dto.news.request.NewsUpdateRequestDto;
+import com.project.opportunities.domain.dto.news.response.NewsResponseDto;
+import com.project.opportunities.domain.dto.news.response.NewsUpdateImageDto;
+import com.project.opportunities.service.core.interfaces.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

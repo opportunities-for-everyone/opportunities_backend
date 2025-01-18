@@ -1,9 +1,9 @@
 package com.project.opportunities.mapper;
 
 import com.project.opportunities.config.MapperConfig;
-import com.project.opportunities.dto.user.UserRegistrationRequestDto;
-import com.project.opportunities.dto.user.UserResponseDto;
-import com.project.opportunities.model.User;
+import com.project.opportunities.domain.dto.user.request.UserRegistrationRequestDto;
+import com.project.opportunities.domain.dto.user.response.UserResponseDto;
+import com.project.opportunities.domain.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

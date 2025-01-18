@@ -1,6 +1,6 @@
 package com.project.opportunities.repository;
 
-import com.project.opportunities.model.Project;
+import com.project.opportunities.domain.model.Project;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

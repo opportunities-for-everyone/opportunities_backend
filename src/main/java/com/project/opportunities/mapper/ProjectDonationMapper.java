@@ -1,10 +1,10 @@
 package com.project.opportunities.mapper;
 
 import com.project.opportunities.config.MapperConfig;
-import com.project.opportunities.dto.donation.AdditionalPaymentResponseDto;
-import com.project.opportunities.dto.donation.PaymentResponseDto;
-import com.project.opportunities.dto.donation.ProjectDonationDto;
-import com.project.opportunities.model.ProjectDonation;
+import com.project.opportunities.domain.dto.donation.response.AdditionalPaymentResponseDto;
+import com.project.opportunities.domain.dto.donation.response.PaymentResponseDto;
+import com.project.opportunities.domain.dto.donation.response.ProjectDonationDto;
+import com.project.opportunities.domain.model.ProjectDonation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

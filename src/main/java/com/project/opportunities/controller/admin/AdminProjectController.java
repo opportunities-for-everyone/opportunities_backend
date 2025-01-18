@@ -1,10 +1,10 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.dto.donation.ProjectDonationDto;
-import com.project.opportunities.dto.project.CreateProjectRequestDto;
-import com.project.opportunities.dto.project.ProjectResponseDto;
-import com.project.opportunities.dto.project.UpdateProjectStatusDto;
-import com.project.opportunities.service.ProjectService;
+import com.project.opportunities.domain.dto.donation.response.ProjectDonationDto;
+import com.project.opportunities.domain.dto.project.request.CreateProjectRequestDto;
+import com.project.opportunities.domain.dto.project.request.UpdateProjectStatusDto;
+import com.project.opportunities.domain.dto.project.response.ProjectResponseDto;
+import com.project.opportunities.service.core.interfaces.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

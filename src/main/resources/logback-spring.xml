@@ -70,7 +70,7 @@
         <appender-ref ref="Console" />
     </logger>
 
-    <logger name="com.project.opportunities.service.impl.CloudinaryServiceImpl" level="DEBUG" additivity="false">
+    <logger name="com.project.opportunities.service.integration.storage.impl.CloudinaryServiceImpl" level="DEBUG" additivity="false">
         <appender-ref ref="CloudinaryFile" />
         <appender-ref ref="Console" />
     </logger>

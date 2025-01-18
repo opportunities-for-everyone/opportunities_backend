@@ -1,7 +1,7 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.dto.donation.DonationDto;
-import com.project.opportunities.service.DonateService;
+import com.project.opportunities.domain.dto.donation.response.DonationDto;
+import com.project.opportunities.service.core.interfaces.DonateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

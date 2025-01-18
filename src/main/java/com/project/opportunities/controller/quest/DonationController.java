@@ -1,7 +1,7 @@
 package com.project.opportunities.controller.quest;
 
-import com.project.opportunities.dto.donation.CreateDonateDto;
-import com.project.opportunities.service.DonateService;
+import com.project.opportunities.domain.dto.donation.request.CreateDonateDto;
+import com.project.opportunities.service.core.interfaces.DonateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

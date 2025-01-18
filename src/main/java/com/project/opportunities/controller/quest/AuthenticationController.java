@@ -1,11 +1,11 @@
 package com.project.opportunities.controller.quest;
 
-import com.project.opportunities.dto.user.UserLoginRequestDto;
-import com.project.opportunities.dto.user.UserLoginResponseDto;
-import com.project.opportunities.dto.user.UserRegistrationRequestDto;
-import com.project.opportunities.dto.user.UserResponseDto;
+import com.project.opportunities.domain.dto.user.request.UserLoginRequestDto;
+import com.project.opportunities.domain.dto.user.request.UserRegistrationRequestDto;
+import com.project.opportunities.domain.dto.user.response.UserLoginResponseDto;
+import com.project.opportunities.domain.dto.user.response.UserResponseDto;
 import com.project.opportunities.security.AuthenticationService;
-import com.project.opportunities.service.UserService;
+import com.project.opportunities.service.core.interfaces.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

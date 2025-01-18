@@ -1,9 +1,9 @@
 package com.project.opportunities.mapper;
 
 import com.project.opportunities.config.MapperConfig;
-import com.project.opportunities.dto.volunteer.CreateVolunteerRequestDto;
-import com.project.opportunities.dto.volunteer.VolunteerResponseDto;
-import com.project.opportunities.model.Volunteer;
+import com.project.opportunities.domain.dto.volunteer.request.CreateVolunteerRequestDto;
+import com.project.opportunities.domain.dto.volunteer.response.VolunteerResponseDto;
+import com.project.opportunities.domain.model.Volunteer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

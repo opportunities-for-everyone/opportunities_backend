@@ -1,9 +1,9 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.dto.volunteer.CreateVolunteerRequestDto;
-import com.project.opportunities.dto.volunteer.UpdateVolunteerStatusRequestDto;
-import com.project.opportunities.dto.volunteer.VolunteerResponseDto;
-import com.project.opportunities.service.VolunteerService;
+import com.project.opportunities.domain.dto.volunteer.request.CreateVolunteerRequestDto;
+import com.project.opportunities.domain.dto.volunteer.request.UpdateVolunteerStatusRequestDto;
+import com.project.opportunities.domain.dto.volunteer.response.VolunteerResponseDto;
+import com.project.opportunities.service.core.interfaces.VolunteerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

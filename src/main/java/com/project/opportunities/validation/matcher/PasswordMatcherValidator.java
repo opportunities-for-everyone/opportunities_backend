@@ -1,6 +1,6 @@
 package com.project.opportunities.validation.matcher;
 
-import com.project.opportunities.dto.user.UserRegistrationRequestDto;
+import com.project.opportunities.domain.dto.user.request.UserRegistrationRequestDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

@@ -1,9 +1,9 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.dto.partner.CreatePartnerRequestDto;
-import com.project.opportunities.dto.partner.PartnerAllInfoDto;
-import com.project.opportunities.dto.partner.UpdatePartnerStatusRequestDto;
-import com.project.opportunities.service.PartnerService;
+import com.project.opportunities.domain.dto.partner.request.CreatePartnerRequestDto;
+import com.project.opportunities.domain.dto.partner.request.UpdatePartnerStatusRequestDto;
+import com.project.opportunities.domain.dto.partner.response.PartnerAllInfoDto;
+import com.project.opportunities.service.core.interfaces.PartnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -48,7 +48,7 @@ public class AdminPartnersController {
                     )
             }
     )
-    @GetMapping
+    @GetMapping()
     @PreAuthorize("hasRole('ADMIN')")
     public Page<PartnerAllInfoDto> getPendingPartners(
             @ParameterObject @PageableDefault Pageable pageable) {
@@ -102,5 +102,23 @@ public class AdminPartnersController {
     public PartnerAllInfoDto addPartner(
             @ModelAttribute @Valid CreatePartnerRequestDto requestDto) {
         return partnerService.addPartner(requestDto);
+    }
+
+    @Operation(
+            summary = "Get all partners",
+            description = "Fetches a paginated list of all partners",
+            security = { @SecurityRequirement(name = "bearerAuth") },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved all partners"
+                    )
+            }
+    )
+    @GetMapping(value = "/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Page<PartnerAllInfoDto> getAllPartners(
+            @ParameterObject @PageableDefault Pageable pageable) {
+        return partnerService.getAllInfoPartners(pageable);
     }
 }

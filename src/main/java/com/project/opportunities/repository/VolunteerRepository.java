@@ -1,6 +1,6 @@
 package com.project.opportunities.repository;
 
-import com.project.opportunities.model.Volunteer;
+import com.project.opportunities.domain.model.Volunteer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
