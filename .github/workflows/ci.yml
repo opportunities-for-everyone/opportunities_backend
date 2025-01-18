@@ -25,5 +25,8 @@ jobs:
           LIQPAY_PRIVATE_KEY: ${{ secrets.LIQPAY_PRIVATE_KEY }}
           LIQPAY_CALLBACK_URL: ${{ secrets. LIQPAY_CALLBACK_URL}}
           LIQPAY_IS_SANDBOX: ${{ secrets. LIQPAY_IS_SANDBOX}}
+          TELEGRAM_BOT_TOKEN: ${{ secrets. TELEGRAM_BOT_TOKEN}}
+          TELEGRAM_BOT_URL: ${{ secrets. TELEGRAM_BOT_URL}}
+          TELEGRAM_BOT_NAME: ${{ secrets. TELEGRAM_BOT_NAME}}
 
         run: mvn --batch-mode --update-snapshots verify
