@@ -1,5 +1,6 @@
 package com.project.opportunities.domain.dto.user.request;
 
+import com.project.opportunities.validation.image.ValidImage;
 import com.project.opportunities.validation.matcher.PasswordMatcher;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -27,5 +28,9 @@ public record UserRegistrationRequestDto(
         @NotBlank
         @Length(max = 30)
         String middleName,
+        @NotBlank
+        @Length(max = 100)
+        String position,
+        @ValidImage
         MultipartFile avatar) {
 }

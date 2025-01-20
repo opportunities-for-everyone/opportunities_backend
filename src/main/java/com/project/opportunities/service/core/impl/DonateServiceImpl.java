@@ -10,6 +10,7 @@ import com.project.opportunities.repository.DonationRepository;
 import com.project.opportunities.service.core.interfaces.DonateService;
 import com.project.opportunities.service.integration.notification.interfaces.NotificationService;
 import com.project.opportunities.service.integration.payment.interfaces.PaymentGenerationService;
+import com.project.opportunities.utils.notification.DonationNotificationBuilder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,20 +46,11 @@ public class DonateServiceImpl implements DonateService {
         donationRepository.save(donation);
         log.info("Successfully processed and saved donation: {}", donation);
 
-        notificationService.sendAdminSiteNotification(
-                """
-                [GENERAL NOTIFICATION]
-                
-                Новий загальний донат:
-                Сумма донату: %s
-                Валюта: %s
-                Задонатив: %s
-                Email: %s
-                """.formatted(
-                        donation.getAmount().doubleValue(),
-                        donation.getCurrency().getCode(),
-                        donation.getDonorName(),
-                        donation.getDonorEmail())
+        notificationService.sendNotificationToAdmin(
+                DonationNotificationBuilder
+                        .action("Новий загальний донат")
+                        .withEntity(donation)
+                        .build()
         );
     }
 

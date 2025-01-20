@@ -6,6 +6,7 @@ public record UserResponseDto(
         String firstName,
         String lastName,
         String middleName,
+        String position,
         String photoUrl
 ) {
 }

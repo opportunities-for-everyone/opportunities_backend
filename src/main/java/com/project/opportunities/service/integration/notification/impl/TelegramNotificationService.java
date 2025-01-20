@@ -1,6 +1,6 @@
 package com.project.opportunities.service.integration.notification.impl;
 
-import com.project.opportunities.domain.dto.user.notification.AdminPanelUserNotificationDto;
+import com.project.opportunities.domain.model.Role;
 import com.project.opportunities.domain.model.TelegramChat;
 import com.project.opportunities.repository.TelegramChatRepository;
 import com.project.opportunities.service.integration.notification.interfaces.NotificationService;
@@ -30,29 +30,6 @@ public class TelegramNotificationService implements NotificationService {
         }
     }
 
-    @Override
-    @Async
-    public void sendAdminPanelNotification(AdminPanelUserNotificationDto performer,
-                                           String message) {
-        var adminCredentials = """
-                [ADMIN-PANEL NOTIFICATION]
-                Автор: %s %s [Роль: %s]
-                
-                %s
-                """
-                .formatted(
-                        performer.firstName(),
-                        performer.lastName(),
-                        performer.authorities(),
-                        message);
-
-        List<TelegramChat> chats = telegramChatRepository.findAll();
-
-        for (TelegramChat chat : chats) {
-            sendMessage(chat, adminCredentials);
-        }
-    }
-
     @Async
     @Override
     public void sendAdminNotification(String message) {
@@ -60,6 +37,50 @@ public class TelegramNotificationService implements NotificationService {
         List<TelegramChat> chats = telegramChatRepository.findAll();
 
         for (TelegramChat chat : chats) {
+            sendMessage(chat, message);
+        }
+    }
+
+    @Async
+    @Override
+    public void sendNotificationToSuperAdmins(String message) {
+        List<TelegramChat> superAdminChats = telegramChatRepository.findChatsByRoles(
+                List.of(
+                        Role.RoleName.ROLE_SUPER_ADMIN,
+                        Role.RoleName.ROLE_ADMIN,
+                        Role.RoleName.ROLE_EDITOR
+                )
+        );
+        for (TelegramChat chat : superAdminChats) {
+            sendMessage(chat, message);
+        }
+    }
+
+    @Async
+    @Override
+    public void sendNotificationToAdmin(String message) {
+        List<TelegramChat> adminChats = telegramChatRepository.findChatsByRoles(
+                List.of(
+                        Role.RoleName.ROLE_SUPER_ADMIN,
+                        Role.RoleName.ROLE_ADMIN
+                )
+        );
+
+        for (TelegramChat chat : adminChats) {
+            sendMessage(chat, message);
+        }
+    }
+
+    @Async
+    @Override
+    public void sendNotificationToEditor(String message) {
+        List<TelegramChat> adminChats = telegramChatRepository.findChatsByRoles(
+                List.of(
+                        Role.RoleName.ROLE_EDITOR
+                )
+        );
+
+        for (TelegramChat chat : adminChats) {
             sendMessage(chat, message);
         }
     }

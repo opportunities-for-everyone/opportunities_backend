@@ -14,7 +14,7 @@ import com.project.opportunities.repository.VolunteerRepository;
 import com.project.opportunities.service.core.interfaces.ImageService;
 import com.project.opportunities.service.core.interfaces.VolunteerService;
 import com.project.opportunities.service.integration.notification.interfaces.NotificationService;
-import com.project.opportunities.utils.VolunteerNotificationBuilder;
+import com.project.opportunities.utils.notification.VolunteerNotificationBuilder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,11 +49,12 @@ public class VolunteerServiceImpl implements VolunteerService {
         Volunteer saved = volunteerRepository.save(volunteer);
 
         log.info("Successfully added new volunteer with email: {}", requestDto.email());
-        notificationService.sendAdminNotification(
+
+        notificationService.sendNotificationToAdmin(
                 VolunteerNotificationBuilder
                         .action("Створено нового волонтера")
                         .performer(getCurrentAdminPanelUser())
-                        .withVolunteer(volunteer)
+                        .withEntity(volunteer)
                         .build()
         );
         return volunteerMapper.toDto(saved);
@@ -87,10 +88,10 @@ public class VolunteerServiceImpl implements VolunteerService {
 
         log.info("Successfully submitted volunteer application for email: {}", requestDto.email());
 
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToEditor(
                 VolunteerNotificationBuilder
                         .action("Нова заявка на волонтерство")
-                        .withVolunteer(volunteer)
+                        .withEntity(volunteer)
                         .build()
         );
         return volunteerMapper.toDto(saved);
@@ -121,17 +122,16 @@ public class VolunteerServiceImpl implements VolunteerService {
         volunteer.setStatus(requestDto.status());
 
         log.debug("Saving updated status for volunteer ID: {}", id);
-        Volunteer saved = volunteerRepository.save(volunteer);
-
-        log.info("Successfully updated status for volunteer ID: {}", id);
-
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToEditor(
                 VolunteerNotificationBuilder
                         .action("Оновлено статус партнера")
                         .performer(getCurrentAdminPanelUser())
-                        .withVolunteer(volunteer)
+                        .withEntity(volunteer)
                         .build()
         );
+
+        Volunteer saved = volunteerRepository.save(volunteer);
+        log.info("Successfully updated status for volunteer ID: {}", id);
         return volunteerMapper.toDto(saved);
     }
 

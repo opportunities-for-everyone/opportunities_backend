@@ -30,6 +30,7 @@ public class TelegramController {
             description = """
                     Allows administrators to get a link to the Telegram bot.
                     By subscribing, admins can receive notifications about website operations.
+                    Requires SUPER_ADMIN, ADMIN or EDITOR role.
                     """,
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
@@ -46,7 +47,7 @@ public class TelegramController {
                     description = "Access denied - you not an admin or editor"
             )
     })
-    @PreAuthorize("hasRole('EDITOR')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'EDITOR')")
     @GetMapping("/notifyMe")
     public String subscribeToNotifications(Authentication authentication) {
         return telegramService.subscribeNotifications(authentication);

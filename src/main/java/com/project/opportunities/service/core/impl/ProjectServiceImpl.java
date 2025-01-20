@@ -22,7 +22,7 @@ import com.project.opportunities.service.core.interfaces.ImageService;
 import com.project.opportunities.service.core.interfaces.ProjectService;
 import com.project.opportunities.service.integration.notification.interfaces.NotificationService;
 import com.project.opportunities.service.integration.payment.interfaces.PaymentGenerationService;
-import com.project.opportunities.utils.ProjectNotificationBuilder;
+import com.project.opportunities.utils.notification.ProjectNotificationBuilder;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
@@ -78,11 +78,11 @@ public class ProjectServiceImpl implements ProjectService {
         project.setImage(projectImage);
         Project savedProject = projectRepository.save(project);
         log.info("Successfully created project with ID: {}", savedProject.getId());
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToEditor(
                 ProjectNotificationBuilder
                         .action("Створено нового партнера")
                         .performer(getCurrentAdminPanelUser())
-                        .withProject(project)
+                        .withEntity(project)
                         .build()
         );
 
@@ -98,11 +98,11 @@ public class ProjectServiceImpl implements ProjectService {
         log.debug("New status for project ID: {} is {}", id, statusDto.status());
         projectRepository.save(project);//todo:check better kind of solution
         log.info("Successfully updated status for project ID: {}", id);
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToEditor(
                 ProjectNotificationBuilder
                         .action("Оновлено статус проекту")
                         .performer(getCurrentAdminPanelUser())
-                        .withProject(project)
+                        .withEntity(project)
                         .build()
         );
         return projectMapper.toDto(project);
@@ -176,26 +176,11 @@ public class ProjectServiceImpl implements ProjectService {
                 projectById.getId(),
                 paymentResponseDto.amount());
 
-        notificationService.sendAdminSiteNotification(
-                """
-                [GENERAL NOTIFICATION]
-                
-                Новий донат на проект:
-                Назва проекту: %s
-                Сума донату: %s
-                Валюта: %s
-                Залишилось зібрати: %s
-                Задонатив: %s
-                Email: %s
-                """.formatted(
-                        projectDonation.getProject().getName(),
-                        projectDonation.getAmount().doubleValue(),
-                        projectDonation.getCurrency().getCode(),
-                        projectDonation.getProject().getGoalAmount()
-                                .subtract(projectDonation.getProject().getCollectedAmount())
-                                .toEngineeringString(),
-                        projectDonation.getDonorName(),
-                        projectDonation.getDonorEmail())
+        notificationService.sendNotificationToAdmin(
+                ProjectNotificationBuilder
+                        .action("Новий донат на проект")
+                        .withDonation(projectDonation)
+                        .build()
         );
     }
 

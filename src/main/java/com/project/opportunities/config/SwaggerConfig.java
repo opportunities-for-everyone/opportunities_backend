@@ -15,7 +15,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("O4E-Backend API")
-                        .version("1.0")
+                        .version("1.0.final")
                         .description("""
                                 API documentation for charitable foundation
                                  O4E(Opportunities for Everyone) Backend API

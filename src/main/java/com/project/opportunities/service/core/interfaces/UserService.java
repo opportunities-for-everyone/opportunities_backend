@@ -1,14 +1,26 @@
 package com.project.opportunities.service.core.interfaces;
 
 import com.project.opportunities.domain.dto.user.request.UserRegistrationRequestDto;
+import com.project.opportunities.domain.dto.user.request.UserUpdatePhotoRequestDto;
+import com.project.opportunities.domain.dto.user.request.UserUpdateRequestDto;
 import com.project.opportunities.domain.dto.user.response.UserResponseDto;
-import com.project.opportunities.domain.model.User;
+import com.project.opportunities.domain.dto.user.response.UserResponseGeneralInfoDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 
 public interface UserService {
     UserResponseDto register(UserRegistrationRequestDto registrationRequestDto);
 
-    Long getUserId(Authentication authentication);
+    Page<UserResponseGeneralInfoDto> getAllUsers(Pageable pageable);
 
-    User getUser(Authentication authentication);
+    void deleteAccount(Long id);
+
+    UserResponseDto updateUserAccountData(
+            Authentication authentication,
+            UserUpdateRequestDto requestDto);
+
+    UserResponseDto updateUserAccountAvatar(
+            Authentication authentication,
+            UserUpdatePhotoRequestDto requestDto);
 }

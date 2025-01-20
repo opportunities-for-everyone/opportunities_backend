@@ -36,6 +36,7 @@ public class Role implements GrantedAuthority {
     }
 
     public enum RoleName {
+        ROLE_SUPER_ADMIN,
         ROLE_ADMIN,
         ROLE_EDITOR
     }

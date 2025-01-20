@@ -16,7 +16,7 @@ import com.project.opportunities.repository.PartnerRepository;
 import com.project.opportunities.service.core.interfaces.ImageService;
 import com.project.opportunities.service.core.interfaces.PartnerService;
 import com.project.opportunities.service.integration.notification.interfaces.NotificationService;
-import com.project.opportunities.utils.PartnerNotificationBuilder;
+import com.project.opportunities.utils.notification.PartnerNotificationBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -39,11 +39,11 @@ public class PartnerServiceImpl implements PartnerService {
         log.info("Creating a new partner with status: ACTIVE");
         Partner partner = createPartner(requestDto, Partner.PartnerStatus.ACTIVE);
         log.info("Partner created successfully with ID: {}", partner.getId());
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToAdmin(
                 PartnerNotificationBuilder
                         .action("Створено нового партнера")
                         .performer(getCurrentAdminPanelUser())
-                        .withPartner(partner)
+                        .withEntity(partner)
                         .build()
         );
         return partnerMapper.toAllInfoDto(partner);
@@ -64,10 +64,10 @@ public class PartnerServiceImpl implements PartnerService {
     public void submitPartnerApplication(CreatePartnerRequestDto requestDto) {
         log.info("Submitting a new partner application with status: PENDING");
         Partner partner = createPartner(requestDto, Partner.PartnerStatus.PENDING);
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToAdmin(
                 PartnerNotificationBuilder
                         .action("Нова заявка на партнерство")
-                        .withPartner(partner)
+                        .withEntity(partner)
                         .build()
         );
         log.info("Partner application submitted successfully with ID: {}", partner.getId());
@@ -82,11 +82,11 @@ public class PartnerServiceImpl implements PartnerService {
         partner.setPartnerStatus(requestDto.status());
         partnerRepository.save(partner);
         log.info("Partner status updated successfully for ID: {}", id);
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToAdmin(
                 PartnerNotificationBuilder
                         .action("Оновлено статус партнера")
                         .performer(getCurrentAdminPanelUser())
-                        .withPartner(partner)
+                        .withEntity(partner)
                         .build()
         );
         return partnerMapper.toAllInfoDto(partner);

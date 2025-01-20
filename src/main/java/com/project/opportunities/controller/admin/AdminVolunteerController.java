@@ -25,19 +25,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "/admin/volunteers")
 @Tag(
         name = "Admin Volunteer Management",
         description = "Administrative APIs for managing volunteers"
 )
-@RestController
-@RequiredArgsConstructor
-@RequestMapping(value = "/admin/volunteers")
 public class AdminVolunteerController {
     private final VolunteerService volunteerService;
 
     @Operation(
             summary = "Add a new volunteer",
-            description = "Allows administrators to directly add a new volunteer to the system",
+            description = """
+            Allows administrators to directly add a new volunteer to the system
+            Requires SUPER_ADMIN or ADMIN role.
+            """,
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses(value = {
@@ -55,7 +58,7 @@ public class AdminVolunteerController {
             )
     })
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public VolunteerResponseDto addVolunteer(
             @ModelAttribute @Valid CreateVolunteerRequestDto requestDto) {
@@ -64,7 +67,10 @@ public class AdminVolunteerController {
 
     @Operation(
             summary = "Update volunteer status",
-            description = "Allows administrators to update the status of an existing volunteer",
+            description = """
+            Allows administrators to update the status of an existing volunteer
+            Requires SUPER_ADMIN, ADMIN or EDITOR role.
+            """,
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses(value = {
@@ -88,7 +94,7 @@ public class AdminVolunteerController {
             )
     })
     @PatchMapping(value = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'EDITOR')")
     public VolunteerResponseDto updateVolunteerStatus(
             @PathVariable Long id,
             @Valid @RequestBody UpdateVolunteerStatusRequestDto requestDto) {

@@ -14,7 +14,7 @@ import com.project.opportunities.repository.NewsRepository;
 import com.project.opportunities.service.core.interfaces.ImageService;
 import com.project.opportunities.service.core.interfaces.NewsService;
 import com.project.opportunities.service.integration.notification.interfaces.NotificationService;
-import com.project.opportunities.utils.NewsNotificationBuilder;
+import com.project.opportunities.utils.notification.NewsNotificationBuilder;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -51,11 +51,11 @@ public class NewsServiceImpl implements NewsService {
         log.info("News created successfully. ID: {}, Title: {}",
                 saved.getId(), saved.getTitle());
 
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToEditor(
                 NewsNotificationBuilder
                         .action("Створено новину")
                         .performer(getCurrentAdminPanelUser())
-                        .withNews(saved)
+                        .withEntity(saved)
                         .build()
         );
         return newsMapper.toDto(saved);
@@ -91,11 +91,11 @@ public class NewsServiceImpl implements NewsService {
         log.info("News content updated successfully. ID: {}, Title: {}",
                 saved.getId(), saved.getTitle());
 
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToEditor(
                 NewsNotificationBuilder
                         .action("Оновлено контент новини")
                         .performer(getCurrentAdminPanelUser())
-                        .withNews(saved)
+                        .withEntity(saved)
                         .build()
         );
         return newsMapper.toDto(saved);
@@ -115,11 +115,11 @@ public class NewsServiceImpl implements NewsService {
         log.info("News image updated successfully. ID: {}, New Image URL: {}",
                 news.getId(), updatedImage.getUrlImage());
 
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToEditor(
                 NewsNotificationBuilder
                         .action("Оновлено фото новини")
                         .performer(getCurrentAdminPanelUser())
-                        .withNews(news)
+                        .withEntity(news)
                         .build()
         );
         return newsMapper.toDto(news);
@@ -131,11 +131,11 @@ public class NewsServiceImpl implements NewsService {
         News newsById = findNewsById(id);
         newsRepository.deleteById(id);
         log.info("News deleted successfully. ID: {}", id);
-        notificationService.sendAdminNotification(
+        notificationService.sendNotificationToEditor(
                 NewsNotificationBuilder
                         .action("Видалено новину")
                         .performer(getCurrentAdminPanelUser())
-                        .withNews(newsById)
+                        .withEntity(newsById)
                         .build()
         );
     }
