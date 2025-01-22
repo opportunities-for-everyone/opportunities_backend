@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin/telegram")
 @RequiredArgsConstructor
-public class TelegramController {
+public class AdminTelegramController {
     private final TelegramService telegramService;
 
     @Operation(
