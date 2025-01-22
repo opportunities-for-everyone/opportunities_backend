@@ -70,11 +70,9 @@ public class PaymentGenerationServiceImpl implements PaymentGenerationService {
             log.info("Generating additional data for donor: {}, donation ID: {}",
                     donationDto.donorName(), donationId.orElse(-1L));
             Map<String, String> additionalData = new HashMap<>();
-            additionalData.put("donorName", donationDto.donorName());
-            additionalData.put("donorEmail", donationDto.donorEmail());
-            additionalData.put("donationType", donationId.isPresent()
-                    ? Donation.DonationType.PROJECT_DONATION.toString()
-                    : Donation.DonationType.GENERAL_DONATION.toString());
+            additionalData.put("donorName", getDonorNameOrEmail(donationDto.donorName()));
+            additionalData.put("donorEmail", getDonorNameOrEmail(donationDto.donorEmail()));
+            additionalData.put("donationType", getDonationType(donationId));
             additionalData.put("donationId", String.valueOf(donationId.orElse(-1L)));
 
             String jsonDataAsString = objectMapper.writeValueAsString(additionalData);
@@ -92,5 +90,13 @@ public class PaymentGenerationServiceImpl implements PaymentGenerationService {
         String orderId = donationType.toString() + System.currentTimeMillis();
         log.info("Generated order ID: {}", orderId);
         return orderId;
+    }
+
+    private String getDonorNameOrEmail(String data) {
+        return (data != null && !data.isEmpty()) ? data : "Anonymous";
+    }
+    private String getDonationType(Optional<Long> donationId) {
+        return donationId.isPresent() ? Donation.DonationType.PROJECT_DONATION.toString()
+                : Donation.DonationType.GENERAL_DONATION.toString();
     }
 }

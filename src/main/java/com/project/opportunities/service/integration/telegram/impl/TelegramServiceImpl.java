@@ -2,10 +2,11 @@ package com.project.opportunities.service.integration.telegram.impl;
 
 import com.project.opportunities.domain.model.TelegramChat;
 import com.project.opportunities.domain.model.User;
+import com.project.opportunities.exception.AlreadySubscribedException;
+import com.project.opportunities.exception.InvalidSubscriptionException;
 import com.project.opportunities.repository.TelegramChatRepository;
 import com.project.opportunities.repository.UserRepository;
 import com.project.opportunities.service.integration.telegram.interfaces.TelegramService;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -30,22 +31,27 @@ public class TelegramServiceImpl implements TelegramService {
     @Override
     @Transactional
     public String subscribeForNotifications(String chatId, String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isEmpty()) {
-            return email + " is not registered as an admin or editor.Check your email address";
-        }
-        if (telegramChatRepository.existsByChatId(chatId)) {
-            return chatId + " is already subscribed for notifications";
-        }
+        User user = validateAndGetUser(email);
+        validateChatNotSubscribed(chatId);
 
-        User user = userOptional.get();
         TelegramChat telegramChat = new TelegramChat();
         telegramChat.setChatId(chatId);
         telegramChat.setUser(user);
 
         telegramChatRepository.save(telegramChat);
-
         return "You are successfully subscribed for notifications";
     }
 
+    private User validateAndGetUser(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new InvalidSubscriptionException(
+                        email + " is not registered as an admin or editor"));
+    }
+
+    private void validateChatNotSubscribed(String chatId) {
+        if (telegramChatRepository.existsByChatId(chatId)) {
+            throw new AlreadySubscribedException(
+                    chatId + " is already subscribed for notifications");
+        }
+    }
 }

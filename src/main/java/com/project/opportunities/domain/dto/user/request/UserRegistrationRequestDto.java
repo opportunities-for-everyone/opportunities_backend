@@ -4,6 +4,7 @@ import com.project.opportunities.validation.image.ValidImage;
 import com.project.opportunities.validation.matcher.PasswordMatcher;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,5 +33,6 @@ public record UserRegistrationRequestDto(
         @Length(max = 100)
         String position,
         @ValidImage
+        @NotNull
         MultipartFile avatar) {
 }
