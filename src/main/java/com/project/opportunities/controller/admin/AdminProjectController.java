@@ -1,10 +1,10 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.dto.donation.ProjectDonationDto;
-import com.project.opportunities.dto.project.CreateProjectRequestDto;
-import com.project.opportunities.dto.project.ProjectResponseDto;
-import com.project.opportunities.dto.project.UpdateProjectStatusDto;
-import com.project.opportunities.service.ProjectService;
+import com.project.opportunities.domain.dto.donation.response.ProjectDonationDto;
+import com.project.opportunities.domain.dto.project.request.CreateProjectRequestDto;
+import com.project.opportunities.domain.dto.project.request.UpdateProjectStatusDto;
+import com.project.opportunities.domain.dto.project.response.ProjectResponseDto;
+import com.project.opportunities.service.core.interfaces.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -42,7 +42,10 @@ public class AdminProjectController {
 
     @Operation(
             summary = "Create a new project",
-            description = "Creates a new project based on the provided request",
+            description = """
+            Creates a new project based on the provided request
+            Requires SUPER_ADMIN, ADMIN or EDITOR role.
+            """,
             security = { @SecurityRequirement(name = "bearerAuth") },
             responses = {
                     @ApiResponse(
@@ -56,7 +59,7 @@ public class AdminProjectController {
             }
     )
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'EDITOR')")
     public ProjectResponseDto createProject(
             @ModelAttribute @Valid CreateProjectRequestDto createProjectRequestDto) {
         return projectService.createProject(createProjectRequestDto);
@@ -64,7 +67,10 @@ public class AdminProjectController {
 
     @Operation(
             summary = "Update project status",
-            description = "Updates the status of the project with the given ID",
+            description = """
+            Updates the status of the project with the given ID
+            Requires SUPER_ADMIN, ADMIN or EDITOR role.
+            """,
             security = { @SecurityRequirement(name = "bearerAuth") },
             responses = {
                     @ApiResponse(
@@ -81,7 +87,7 @@ public class AdminProjectController {
                     )
             }
     )
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'EDITOR')")
     @PatchMapping(value = "/{id}/status")
     public ProjectResponseDto updateProjectStatus(
             @PathVariable Long id,
@@ -91,7 +97,10 @@ public class AdminProjectController {
 
     @Operation(
             summary = "Get project donations",
-            description = "Retrieves a paginated list of donations for a specific project",
+            description = """
+            Retrieves a paginated list of donations for a specific project
+            Requires SUPER_ADMIN or ADMIN role.
+            """,
             security = { @SecurityRequirement(name = "bearerAuth") },
             responses = {
                     @ApiResponse(
@@ -124,7 +133,7 @@ public class AdminProjectController {
                     in = ParameterIn.PATH
             )
     })
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     @GetMapping(value = "/{id}/donations")
     public Page<ProjectDonationDto> getProjectDonations(
             @ParameterObject @PageableDefault Pageable pageable,

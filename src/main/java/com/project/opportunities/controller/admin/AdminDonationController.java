@@ -1,7 +1,7 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.dto.donation.DonationDto;
-import com.project.opportunities.service.DonateService;
+import com.project.opportunities.domain.dto.donation.response.DonationDto;
+import com.project.opportunities.service.core.interfaces.DonateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -33,7 +33,10 @@ public class AdminDonationController {
 
     @Operation(
             summary = "Get general donations",
-            description = "Retrieves a paginated list of general donations",
+            description = """
+            Retrieves a paginated list of general donations
+            Requires SUPER_ADMIN or ADMIN role.
+            """,
             security = { @SecurityRequirement(name = "bearerAuth") },
             responses = {
                     @ApiResponse(
@@ -57,7 +60,7 @@ public class AdminDonationController {
             )
     })
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     public Page<DonationDto> getGeneralDonations(
             @PageableDefault @ParameterObject Pageable pageable) {
         return donateService.getGeneralDonations(pageable);

@@ -1,7 +1,7 @@
 package com.project.opportunities.controller.quest;
 
-import com.project.opportunities.dto.news.NewsResponseDto;
-import com.project.opportunities.service.NewsService;
+import com.project.opportunities.domain.dto.news.response.NewsResponseDto;
+import com.project.opportunities.service.core.interfaces.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

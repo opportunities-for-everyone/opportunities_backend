@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-telegram_chats-table
+      author: shastkiv
+      changes:
+        - createTable:
+            tableName: telegram_chats
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: chat_id
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true
+
+        - addForeignKeyConstraint:
+            baseTableName: telegram_chats
+            baseColumnNames: id
+            constraintName: fk_telegram_chats_users
+            referencedTableName: users
+            referencedColumnNames: id

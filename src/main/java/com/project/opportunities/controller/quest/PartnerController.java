@@ -1,9 +1,9 @@
 package com.project.opportunities.controller.quest;
 
-import com.project.opportunities.dto.partner.CreatePartnerRequestDto;
-import com.project.opportunities.dto.partner.PartnerAllInfoDto;
-import com.project.opportunities.dto.partner.PartnerGeneralInfoDto;
-import com.project.opportunities.service.PartnerService;
+import com.project.opportunities.domain.dto.partner.request.CreatePartnerRequestDto;
+import com.project.opportunities.domain.dto.partner.response.PartnerAllInfoDto;
+import com.project.opportunities.domain.dto.partner.response.PartnerGeneralInfoDto;
+import com.project.opportunities.service.core.interfaces.PartnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;

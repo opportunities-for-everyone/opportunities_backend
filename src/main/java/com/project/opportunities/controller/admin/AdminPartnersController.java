@@ -1,9 +1,9 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.dto.partner.CreatePartnerRequestDto;
-import com.project.opportunities.dto.partner.PartnerAllInfoDto;
-import com.project.opportunities.dto.partner.UpdatePartnerStatusRequestDto;
-import com.project.opportunities.service.PartnerService;
+import com.project.opportunities.domain.dto.partner.request.CreatePartnerRequestDto;
+import com.project.opportunities.domain.dto.partner.request.UpdatePartnerStatusRequestDto;
+import com.project.opportunities.domain.dto.partner.response.PartnerAllInfoDto;
+import com.project.opportunities.service.core.interfaces.PartnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -39,6 +39,7 @@ public class AdminPartnersController {
             summary = "Get pending partner applications",
             description = """
             Fetches a paginated list of partners whose applications are pending approval
+            Requires SUPER_ADMIN or ADMIN role.
             """,
             security = { @SecurityRequirement(name = "bearerAuth") },
             responses = {
@@ -48,8 +49,8 @@ public class AdminPartnersController {
                     )
             }
     )
-    @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping()
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     public Page<PartnerAllInfoDto> getPendingPartners(
             @ParameterObject @PageableDefault Pageable pageable) {
         return partnerService.getPendingPartners(pageable);
@@ -57,7 +58,10 @@ public class AdminPartnersController {
 
     @Operation(
             summary = "Update partner status",
-            description = "Updates the status of a specific partner by ID",
+            description = """
+            Updates the status of a specific partner by ID
+            Requires SUPER_ADMIN or ADMIN role.
+            """,
             security = { @SecurityRequirement(name = "bearerAuth") },
             responses = {
                     @ApiResponse(
@@ -75,7 +79,7 @@ public class AdminPartnersController {
             }
     )
     @PatchMapping(value = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     public PartnerAllInfoDto updatePartnerStatus(
             @PathVariable Long id,
             @Valid @RequestBody UpdatePartnerStatusRequestDto requestDto) {
@@ -84,7 +88,10 @@ public class AdminPartnersController {
 
     @Operation(
             summary = "Add a new partner",
-            description = "Creates and adds a new partner to the system",
+            description = """
+            Creates and adds a new partner to the system
+            Requires SUPER_ADMIN or ADMIN role.
+            """,
             security = { @SecurityRequirement(name = "bearerAuth") },
             responses = {
                     @ApiResponse(
@@ -98,9 +105,30 @@ public class AdminPartnersController {
             }
     )
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     public PartnerAllInfoDto addPartner(
             @ModelAttribute @Valid CreatePartnerRequestDto requestDto) {
         return partnerService.addPartner(requestDto);
+    }
+
+    @Operation(
+            summary = "Get all partners",
+            description = """
+            Fetches a paginated list of all partners
+            Requires SUPER_ADMIN, ADMIN or EDiTOR role.
+            """,
+            security = { @SecurityRequirement(name = "bearerAuth") },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved all partners"
+                    )
+            }
+    )
+    @GetMapping(value = "/all")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'EDITOR')")
+    public Page<PartnerAllInfoDto> getAllPartners(
+            @ParameterObject @PageableDefault Pageable pageable) {
+        return partnerService.getAllInfoPartners(pageable);
     }
 }

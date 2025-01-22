@@ -1,9 +1,9 @@
 package com.project.opportunities.mapper;
 
 import com.project.opportunities.config.MapperConfig;
-import com.project.opportunities.dto.project.CreateProjectRequestDto;
-import com.project.opportunities.dto.project.ProjectResponseDto;
-import com.project.opportunities.model.Project;
+import com.project.opportunities.domain.dto.project.request.CreateProjectRequestDto;
+import com.project.opportunities.domain.dto.project.response.ProjectResponseDto;
+import com.project.opportunities.domain.model.Project;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

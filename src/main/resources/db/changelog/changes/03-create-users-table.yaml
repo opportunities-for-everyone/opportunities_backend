@@ -40,14 +40,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: avatar_id
-                  type: bigint
+                  name: position
+                  type: varchar(100)
                   constraints:
                     nullable: false
               - column:
-                  name: is_deleted
-                  type: boolean
-                  defaultValueBoolean: false
+                  name: avatar_id
+                  type: bigint
                   constraints:
                     nullable: false
 

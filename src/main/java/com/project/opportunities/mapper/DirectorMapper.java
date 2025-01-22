@@ -1,9 +1,9 @@
 package com.project.opportunities.mapper;
 
 import com.project.opportunities.config.MapperConfig;
-import com.project.opportunities.dto.director.DirectorDto;
-import com.project.opportunities.dto.partner.CreatePartnerRequestDto;
-import com.project.opportunities.model.Director;
+import com.project.opportunities.domain.dto.director.response.DirectorDto;
+import com.project.opportunities.domain.dto.partner.request.CreatePartnerRequestDto;
+import com.project.opportunities.domain.model.Director;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

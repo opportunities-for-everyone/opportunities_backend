@@ -25,3 +25,7 @@ databaseChangeLog:
       file: db/changelog/changes/12-create-donations-table.yaml
   - include:
       file: db/changelog/changes/13-create-project_donations-table.yaml
+  - include:
+      file: db/changelog/changes/14-create-telegram_chats-table.yaml
+  - include:
+      file: db/changelog/changes/15-create-allowed_emails-table.yaml

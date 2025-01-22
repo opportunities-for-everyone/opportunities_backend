@@ -1,10 +1,10 @@
 package com.project.opportunities.controller.admin;
 
-import com.project.opportunities.dto.news.NewsCreateRequestDto;
-import com.project.opportunities.dto.news.NewsResponseDto;
-import com.project.opportunities.dto.news.NewsUpdateImageDto;
-import com.project.opportunities.dto.news.NewsUpdateRequestDto;
-import com.project.opportunities.service.NewsService;
+import com.project.opportunities.domain.dto.news.request.NewsCreateRequestDto;
+import com.project.opportunities.domain.dto.news.request.NewsUpdateRequestDto;
+import com.project.opportunities.domain.dto.news.response.NewsResponseDto;
+import com.project.opportunities.domain.dto.news.response.NewsUpdateImageDto;
+import com.project.opportunities.service.core.interfaces.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -43,7 +43,7 @@ public class AdminNewsController {
             summary = "Create news article",
             description = """
                     Creates a new news article with title, content, and cover image.
-                    Requires ADMIN role.
+                    Requires SUPER_ADMIN, ADMIN or EDITOR role.
                     """,
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
@@ -63,7 +63,7 @@ public class AdminNewsController {
             )
     })
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'EDITOR')")
     public NewsResponseDto createNews(
             @Parameter(description = "News article details with cover image")
             @ModelAttribute @Valid NewsCreateRequestDto createRequestDto,
@@ -75,7 +75,7 @@ public class AdminNewsController {
             summary = "Update news content",
             description = """
                     Updates title and content of an existing news article.
-                    Requires EDITOR or ADMIN role.
+                    Requires SUPER_ADMIN, ADMIN or EDITOR role.
                     """,
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
@@ -99,7 +99,7 @@ public class AdminNewsController {
             )
     })
     @PutMapping(value = "/{id}")
-    @PreAuthorize("hasRole('EDITOR')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'EDITOR')")
     public NewsResponseDto updateNewsContent(
             @Parameter(description = "ID of the news article to update", required = true)
             @PathVariable Long id,
@@ -112,7 +112,7 @@ public class AdminNewsController {
             summary = "Update news cover image",
             description = """
                     Updates the cover image of an existing news article.
-                    Requires EDITOR or ADMIN role.
+                    Requires SUPER_ADMIN, ADMIN or EDITOR role.
                     """,
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
@@ -136,7 +136,7 @@ public class AdminNewsController {
             )
     })
     @PutMapping(value = "/image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('EDITOR')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'EDITOR')")
     public NewsResponseDto updateNewsCoverImage(
             @Parameter(description = "ID of the news article", required = true)
             @PathVariable Long id,
@@ -149,7 +149,7 @@ public class AdminNewsController {
             summary = "Delete news article",
             description = """
                 Deletes an existing news article by its ID.
-                Requires EDITOR or ADMIN role.
+                Requires SUPER_ADMIN, ADMIN or EDITOR role.
                 """,
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
@@ -167,7 +167,7 @@ public class AdminNewsController {
                     description = "News article not found"
             )
     })
-    @PreAuthorize("hasRole('EDITOR')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'EDITOR')")
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteNews(
