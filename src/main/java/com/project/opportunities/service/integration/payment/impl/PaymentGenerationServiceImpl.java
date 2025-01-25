@@ -95,6 +95,7 @@ public class PaymentGenerationServiceImpl implements PaymentGenerationService {
     private String getDonorNameOrEmail(String data) {
         return (data != null && !data.isEmpty()) ? data : "Anonymous";
     }
+
     private String getDonationType(Optional<Long> donationId) {
         return donationId.isPresent() ? Donation.DonationType.PROJECT_DONATION.toString()
                 : Donation.DonationType.GENERAL_DONATION.toString();

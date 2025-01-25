@@ -69,13 +69,11 @@ public class TelegramBotApi extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
-            log.error("Failed to send message to chat {}: {}", chatId, e.getMessage());
+            log.error("Error sending message: {}", e.getMessage());
         }
     }
 
     private String parseEmail(String message) {
-        if (message == null || !message.startsWith("/join ")) {
-            throw new IllegalArgumentException("Invalid command format");
-        }
-        return message.substring("/join ".length()).trim();
-    }}
+        return message.substring(6);
+    }
+}

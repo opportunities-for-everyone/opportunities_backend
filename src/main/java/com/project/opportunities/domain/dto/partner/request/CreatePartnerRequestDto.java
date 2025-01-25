@@ -2,6 +2,7 @@ package com.project.opportunities.domain.dto.partner.request;
 
 import com.project.opportunities.domain.model.Partner;
 import com.project.opportunities.validation.image.ValidImage;
+import com.project.opportunities.validation.phone.PhoneNumber;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
@@ -22,7 +23,7 @@ public record CreatePartnerRequestDto(@Length(max = 100)
                                       @Length(max = 20)
                                       String directorMiddleName,
                                       @NotBlank
-                                      @Length(max = 15)
+                                      @PhoneNumber
                                       String directorPhoneNumber,
                                       @NotBlank
                                       @Length(max = 50)
