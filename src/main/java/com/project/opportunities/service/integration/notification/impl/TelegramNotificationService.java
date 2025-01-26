@@ -46,9 +46,7 @@ public class TelegramNotificationService implements NotificationService {
     public void sendNotificationToSuperAdmins(String message) {
         List<TelegramChat> superAdminChats = telegramChatRepository.findChatsByRoles(
                 List.of(
-                        Role.RoleName.ROLE_SUPER_ADMIN,
-                        Role.RoleName.ROLE_ADMIN,
-                        Role.RoleName.ROLE_EDITOR
+                        Role.RoleName.ROLE_SUPER_ADMIN
                 )
         );
         for (TelegramChat chat : superAdminChats) {
@@ -58,7 +56,7 @@ public class TelegramNotificationService implements NotificationService {
 
     @Async
     @Override
-    public void sendNotificationToAdmin(String message) {
+    public void sendNotificationToAdmins(String message) {
         List<TelegramChat> adminChats = telegramChatRepository.findChatsByRoles(
                 List.of(
                         Role.RoleName.ROLE_SUPER_ADMIN,
@@ -73,9 +71,11 @@ public class TelegramNotificationService implements NotificationService {
 
     @Async
     @Override
-    public void sendNotificationToEditor(String message) {
+    public void sendNotificationToAll(String message) {
         List<TelegramChat> adminChats = telegramChatRepository.findChatsByRoles(
                 List.of(
+                        Role.RoleName.ROLE_SUPER_ADMIN,
+                        Role.RoleName.ROLE_ADMIN,
                         Role.RoleName.ROLE_EDITOR
                 )
         );

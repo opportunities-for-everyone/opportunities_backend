@@ -51,7 +51,7 @@ public class NewsServiceImpl implements NewsService {
         log.info("News created successfully. ID: {}, Title: {}",
                 saved.getId(), saved.getTitle());
 
-        notificationService.sendNotificationToEditor(
+        notificationService.sendNotificationToAll(
                 NewsNotificationBuilder
                         .action("Створено новину")
                         .performer(getCurrentAdminPanelUser())
@@ -91,7 +91,7 @@ public class NewsServiceImpl implements NewsService {
         log.info("News content updated successfully. ID: {}, Title: {}",
                 saved.getId(), saved.getTitle());
 
-        notificationService.sendNotificationToEditor(
+        notificationService.sendNotificationToAll(
                 NewsNotificationBuilder
                         .action("Оновлено контент новини")
                         .performer(getCurrentAdminPanelUser())
@@ -115,7 +115,7 @@ public class NewsServiceImpl implements NewsService {
         log.info("News image updated successfully. ID: {}, New Image URL: {}",
                 news.getId(), updatedImage.getUrlImage());
 
-        notificationService.sendNotificationToEditor(
+        notificationService.sendNotificationToAll(
                 NewsNotificationBuilder
                         .action("Оновлено фото новини")
                         .performer(getCurrentAdminPanelUser())
@@ -131,7 +131,7 @@ public class NewsServiceImpl implements NewsService {
         News newsById = findNewsById(id);
         newsRepository.deleteById(id);
         log.info("News deleted successfully. ID: {}", id);
-        notificationService.sendNotificationToEditor(
+        notificationService.sendNotificationToAll(
                 NewsNotificationBuilder
                         .action("Видалено новину")
                         .performer(getCurrentAdminPanelUser())

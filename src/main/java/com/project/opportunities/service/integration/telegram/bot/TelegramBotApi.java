@@ -56,6 +56,13 @@ public class TelegramBotApi extends TelegramLongPollingBot {
             String result = telegramService.subscribeForNotifications(chatId, email);
             sendMessage(chatId, result);
             log.info("Subscription result for email {}: {}", email, result);
+        } else if (msg.getText().startsWith("/all")) {
+            String totalSubscriptions = telegramService.getTotalSubscriptions();
+            sendMessage(chatId, totalSubscriptions);
+        } else if (msg.getText().startsWith("/remove")) {
+            Long l = Long.valueOf(msg.getText().substring(8));
+            String totalSubscriptions = telegramService.removeSubscriber(l);
+            sendMessage(chatId, totalSubscriptions);
         } else {
             sendMessage(chatId, GREETING_MESSAGE);
         }

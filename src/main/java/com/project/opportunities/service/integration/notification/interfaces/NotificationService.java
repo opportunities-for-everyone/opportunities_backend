@@ -12,8 +12,8 @@ public interface NotificationService {
     void sendNotificationToSuperAdmins(String message);
 
     @Async
-    void sendNotificationToAdmin(String message);
+    void sendNotificationToAdmins(String message);
 
     @Async
-    void sendNotificationToEditor(String message);
+    void sendNotificationToAll(String message);
 }

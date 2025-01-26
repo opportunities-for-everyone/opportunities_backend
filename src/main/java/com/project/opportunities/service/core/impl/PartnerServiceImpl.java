@@ -39,7 +39,7 @@ public class PartnerServiceImpl implements PartnerService {
         log.info("Creating a new partner with status: ACTIVE");
         Partner partner = createPartner(requestDto, Partner.PartnerStatus.ACTIVE);
         log.info("Partner created successfully with ID: {}", partner.getId());
-        notificationService.sendNotificationToAdmin(
+        notificationService.sendNotificationToAdmins(
                 PartnerNotificationBuilder
                         .action("Створено нового партнера")
                         .performer(getCurrentAdminPanelUser())
@@ -64,7 +64,7 @@ public class PartnerServiceImpl implements PartnerService {
     public void submitPartnerApplication(CreatePartnerRequestDto requestDto) {
         log.info("Submitting a new partner application with status: PENDING");
         Partner partner = createPartner(requestDto, Partner.PartnerStatus.PENDING);
-        notificationService.sendNotificationToAdmin(
+        notificationService.sendNotificationToAdmins(
                 PartnerNotificationBuilder
                         .action("Нова заявка на партнерство")
                         .withEntity(partner)
@@ -82,7 +82,7 @@ public class PartnerServiceImpl implements PartnerService {
         partner.setPartnerStatus(requestDto.status());
         partnerRepository.save(partner);
         log.info("Partner status updated successfully for ID: {}", id);
-        notificationService.sendNotificationToAdmin(
+        notificationService.sendNotificationToAdmins(
                 PartnerNotificationBuilder
                         .action("Оновлено статус партнера")
                         .performer(getCurrentAdminPanelUser())

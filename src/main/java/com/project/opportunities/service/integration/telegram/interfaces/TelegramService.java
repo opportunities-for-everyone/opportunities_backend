@@ -6,4 +6,8 @@ public interface TelegramService {
     String subscribeNotifications(Authentication authentication);
 
     String subscribeForNotifications(String chatId, String email);
+
+    String getTotalSubscriptions();
+
+    String removeSubscriber(Long id);
 }

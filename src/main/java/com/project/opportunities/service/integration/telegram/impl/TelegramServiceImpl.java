@@ -31,15 +31,33 @@ public class TelegramServiceImpl implements TelegramService {
     @Override
     @Transactional
     public String subscribeForNotifications(String chatId, String email) {
-        User user = validateAndGetUser(email);
-        validateChatNotSubscribed(chatId);
+        try {
+            User user = validateAndGetUser(email);
+            validateChatNotSubscribed(chatId);
 
-        TelegramChat telegramChat = new TelegramChat();
-        telegramChat.setChatId(chatId);
-        telegramChat.setUser(user);
+            TelegramChat telegramChat = new TelegramChat();
+            telegramChat.setChatId(chatId);
+            telegramChat.setUser(user);
 
-        telegramChatRepository.save(telegramChat);
-        return "You are successfully subscribed for notifications";
+            telegramChatRepository.save(telegramChat);
+            return "Ви успішно підписані на сповіщення. Telegram Chat ID: " + chatId;
+        } catch (InvalidSubscriptionException e) {
+            return "Помилка: Користувач з email " + email
+                    + " не зареєстрований як адміністратор або редактор.";
+        } catch (AlreadySubscribedException e) {
+            return "Помилка: Цей Telegram Chat ID вже підписаний на сповіщення.";
+        }
+    }
+
+    @Override
+    public String getTotalSubscriptions() {
+        return telegramChatRepository.findAll().toString();
+    }
+
+    @Override
+    public String removeSubscriber(Long id) {
+        telegramChatRepository.deleteById(id);
+        return "You are successfully unsubscribed";
     }
 
     private User validateAndGetUser(String email) {

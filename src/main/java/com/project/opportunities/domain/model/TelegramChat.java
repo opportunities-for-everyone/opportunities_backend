@@ -25,4 +25,13 @@ public class TelegramChat {
     @MapsId
     @JoinColumn(name = "id", nullable = false)
     private User user;
+
+    @Override
+    public String toString() {
+        return "TelegramChat{"
+                + "id=" + id
+                + ", chatId='" + chatId + '\''
+                + ", email=" + user.getEmail()
+                + '}';
+    }
 }

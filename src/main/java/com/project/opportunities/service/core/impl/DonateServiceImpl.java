@@ -46,7 +46,7 @@ public class DonateServiceImpl implements DonateService {
         donationRepository.save(donation);
         log.info("Successfully processed and saved donation: {}", donation);
 
-        notificationService.sendNotificationToAdmin(
+        notificationService.sendNotificationToAdmins(
                 DonationNotificationBuilder
                         .action("Новий загальний донат")
                         .withEntity(donation)

@@ -50,7 +50,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
         log.info("Successfully added new volunteer with email: {}", requestDto.email());
 
-        notificationService.sendNotificationToAdmin(
+        notificationService.sendNotificationToAdmins(
                 VolunteerNotificationBuilder
                         .action("Створено нового волонтера")
                         .performer(getCurrentAdminPanelUser())
@@ -88,7 +88,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
         log.info("Successfully submitted volunteer application for email: {}", requestDto.email());
 
-        notificationService.sendNotificationToEditor(
+        notificationService.sendNotificationToAll(
                 VolunteerNotificationBuilder
                         .action("Нова заявка на волонтерство")
                         .withEntity(volunteer)
@@ -122,7 +122,7 @@ public class VolunteerServiceImpl implements VolunteerService {
         volunteer.setStatus(requestDto.status());
 
         log.debug("Saving updated status for volunteer ID: {}", id);
-        notificationService.sendNotificationToEditor(
+        notificationService.sendNotificationToAll(
                 VolunteerNotificationBuilder
                         .action("Оновлено статус партнера")
                         .performer(getCurrentAdminPanelUser())
