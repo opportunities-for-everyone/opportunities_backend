@@ -20,27 +20,6 @@ public class TelegramNotificationService implements NotificationService {
     private final TelegramBotApi telegramBot;
     private final TelegramChatRepository telegramChatRepository;
 
-    @Override
-    @Async
-    public void sendAdminSiteNotification(String message) {
-        List<TelegramChat> chats = telegramChatRepository.findAll();
-
-        for (TelegramChat chat : chats) {
-            sendMessage(chat, message);
-        }
-    }
-
-    @Async
-    @Override
-    public void sendAdminNotification(String message) {
-
-        List<TelegramChat> chats = telegramChatRepository.findAll();
-
-        for (TelegramChat chat : chats) {
-            sendMessage(chat, message);
-        }
-    }
-
     @Async
     @Override
     public void sendNotificationToSuperAdmins(String message) {
