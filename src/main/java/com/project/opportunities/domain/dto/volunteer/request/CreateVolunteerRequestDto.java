@@ -1,5 +1,6 @@
 package com.project.opportunities.domain.dto.volunteer.request;
 
+import com.project.opportunities.validation.phone.PhoneNumber;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +18,7 @@ public record CreateVolunteerRequestDto(
         @Length(max = 20)
         String middleName,
         @NotBlank
-        @Length(max = 15)
+        @PhoneNumber
         String phoneNumber,
         @NotBlank
         @Length(max = 50)
