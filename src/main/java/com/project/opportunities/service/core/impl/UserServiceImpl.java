@@ -101,6 +101,8 @@ public class UserServiceImpl implements UserService {
         User user = findUserById(currentUser.getId());
         log.info("Found user to update: {}", user.getEmail());
 
+        validateEmailNotRegistered(requestDto.email());
+
         log.info("Updating user account with new data: {}", requestDto);
         userMapper.updateUser(user, requestDto);
 
