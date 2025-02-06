@@ -1,5 +1,7 @@
 package com.project.opportunities.domain.dto.project.request;
 
+import com.project.opportunities.validation.date.ValidDeadLine;
+import com.project.opportunities.validation.image.ValidImage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,16 +35,18 @@ public record CreateProjectRequestDto(
         BigDecimal goalAmount,
 
         @Schema(description = "Project deadline date",
-                example = "2024-12-31",
+                example = "2025-12-31",
                 type = "string",
                 format = "date")
         @NotNull
+        @ValidDeadLine
         LocalDate deadline,
 
         @Schema(description = "Project cover image",
                 type = "string",
                 format = "binary")
         @NotNull
+        @ValidImage
         MultipartFile image
 ) {
 }
