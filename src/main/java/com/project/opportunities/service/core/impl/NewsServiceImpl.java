@@ -102,6 +102,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Transactional
     public NewsResponseDto updateNewsImage(Long id, NewsUpdateImageDto requestDto) {
         log.info("Updating news image. ID: {}", id);
 
@@ -126,6 +127,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Transactional
     public void deleteNews(Long id) {
         log.info("Attempting to delete news. ID: {}", id);
         News newsById = findNewsById(id);

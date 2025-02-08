@@ -17,6 +17,7 @@ import com.project.opportunities.service.core.interfaces.ImageService;
 import com.project.opportunities.service.core.interfaces.PartnerService;
 import com.project.opportunities.service.integration.notification.interfaces.NotificationService;
 import com.project.opportunities.utils.notification.PartnerNotificationBuilder;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,7 @@ public class PartnerServiceImpl implements PartnerService {
     private final NotificationService notificationService;
 
     @Override
+    @Transactional
     public PartnerAllInfoDto addPartner(CreatePartnerRequestDto requestDto) {
         log.info("Creating a new partner with status: ACTIVE");
         Partner partner = createPartner(requestDto, Partner.PartnerStatus.ACTIVE);
@@ -74,6 +76,7 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
+    @Transactional
     public PartnerAllInfoDto updatePartnerStatus(
             Long id,
             UpdatePartnerStatusRequestDto requestDto) {
