@@ -182,9 +182,11 @@ public class UserServiceImpl implements UserService {
 
     private void checkEmailBeforeUpdate(User user, String emailUpdated) {
         if (userRepository.existsByEmail(emailUpdated) && !user.getEmail().equals(emailUpdated)) {
-            throw new RegistrationException("User with email: " + emailUpdated + " already registered!");
+            throw new RegistrationException("User with email: "
+                    + emailUpdated + " already registered!");
         }
     }
+
     private User getCurrentUser(Authentication authentication) {
         return (User) authentication.getPrincipal();
     }

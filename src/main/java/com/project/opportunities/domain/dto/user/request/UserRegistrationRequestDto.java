@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 public record UserRegistrationRequestDto(
         @NotBlank
         @Email
-        @Length(min = 5, max = 50)
+        @Length(min = 9, max = 50)
         String email,
         @NotBlank
         @Length(min = 8, max = 30)

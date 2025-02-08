@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 public record UserUpdateRequestDto(@NotBlank
                                    @Email
-                                   @Length(min = 5, max = 50)
+                                   @Length(min = 9, max = 50)
                                    String email,
                                    @NotBlank
                                    @Length(max = 30)
