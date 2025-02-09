@@ -29,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
         description = "Endpoints for managing documents by administrators"
 )
 @RestController
-@RequestMapping("/api/admin/documents")
+@RequestMapping("/admin/documents")
 @RequiredArgsConstructor
 public class AdminDocumentController {
     private final DocumentService documentService;
