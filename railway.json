@@ -1,8 +1,0 @@
-{
-  "build": {
-    "dockerfilePath": "./Dockerfile"
-  },
-  "deploy": {
-    "startCommand": "java org.springframework.boot.loader.launch.JarLauncher"
-  }
-}
