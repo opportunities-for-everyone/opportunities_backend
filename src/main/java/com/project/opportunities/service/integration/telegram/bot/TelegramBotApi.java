@@ -1,12 +1,15 @@
 package com.project.opportunities.service.integration.telegram.bot;
 
 import com.project.opportunities.service.integration.telegram.interfaces.TelegramService;
+import java.io.File;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -56,6 +59,27 @@ public class TelegramBotApi extends TelegramLongPollingBot {
             String result = telegramService.subscribeForNotifications(chatId, email);
             sendMessage(chatId, result);
             log.info("Subscription result for email {}: {}", email, result);
+        } else if (msg.getText().startsWith("/all")) {
+            String totalSubscriptions = telegramService.getTotalSubscriptions();
+            sendMessage(chatId, totalSubscriptions);
+        } else if (msg.getText().startsWith("/remove")) {
+            Long l = Long.valueOf(msg.getText().substring(8));
+            String totalSubscriptions = telegramService.removeSubscriber(l);
+            sendMessage(chatId, totalSubscriptions);
+        } else if (msg.getText().startsWith("/logs")) {
+            File logFile = new File("logs/application.log");
+
+            if (!logFile.exists()) {
+                sendMessage(chatId, "Файл не існує");
+            }
+            SendDocument sendDocument = new SendDocument();
+            sendDocument.setChatId(chatId);
+            sendDocument.setDocument(new InputFile(logFile));
+            try {
+                execute(sendDocument);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             sendMessage(chatId, GREETING_MESSAGE);
         }
@@ -69,11 +93,16 @@ public class TelegramBotApi extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Error sending message: {}", e.getMessage());
         }
     }
 
     private String parseEmail(String message) {
         return message.substring(6);
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email.matches(emailRegex);
     }
 }

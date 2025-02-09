@@ -78,7 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setImage(projectImage);
         Project savedProject = projectRepository.save(project);
         log.info("Successfully created project with ID: {}", savedProject.getId());
-        notificationService.sendNotificationToEditor(
+        notificationService.sendNotificationToAll(
                 ProjectNotificationBuilder
                         .action("Створено нового партнера")
                         .performer(getCurrentAdminPanelUser())
@@ -98,7 +98,7 @@ public class ProjectServiceImpl implements ProjectService {
         log.debug("New status for project ID: {} is {}", id, statusDto.status());
         projectRepository.save(project);//todo:check better kind of solution
         log.info("Successfully updated status for project ID: {}", id);
-        notificationService.sendNotificationToEditor(
+        notificationService.sendNotificationToAll(
                 ProjectNotificationBuilder
                         .action("Оновлено статус проекту")
                         .performer(getCurrentAdminPanelUser())
@@ -176,7 +176,7 @@ public class ProjectServiceImpl implements ProjectService {
                 projectById.getId(),
                 paymentResponseDto.amount());
 
-        notificationService.sendNotificationToAdmin(
+        notificationService.sendNotificationToAdmins(
                 ProjectNotificationBuilder
                         .action("Новий донат на проект")
                         .withDonation(projectDonation)

@@ -92,6 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponseDto updateUserAccountData(Authentication authentication,
                                                  UserUpdateRequestDto requestDto) {
         log.info("Starting account update for authenticated user.");
@@ -100,6 +101,8 @@ public class UserServiceImpl implements UserService {
 
         User user = findUserById(currentUser.getId());
         log.info("Found user to update: {}", user.getEmail());
+
+        checkEmailBeforeUpdate(user, requestDto.email());
 
         log.info("Updating user account with new data: {}", requestDto);
         userMapper.updateUser(user, requestDto);
@@ -111,6 +114,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponseDto updateUserAccountAvatar(Authentication authentication,
                                                    UserUpdatePhotoRequestDto requestDto) {
         log.info("Starting update avatar for authenticated user.");
@@ -174,6 +178,13 @@ public class UserServiceImpl implements UserService {
             log.info("Account with id: {} not found", id);
             return new IllegalArgumentException("Account with id: %s not found".formatted(id));
         });
+    }
+
+    private void checkEmailBeforeUpdate(User user, String emailUpdated) {
+        if (userRepository.existsByEmail(emailUpdated) && !user.getEmail().equals(emailUpdated)) {
+            throw new RegistrationException("User with email: "
+                    + emailUpdated + " already registered!");
+        }
     }
 
     private User getCurrentUser(Authentication authentication) {

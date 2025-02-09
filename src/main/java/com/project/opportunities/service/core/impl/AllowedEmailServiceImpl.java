@@ -59,6 +59,7 @@ public class AllowedEmailServiceImpl implements AllowedEmailService {
     }
 
     @Override
+    @Transactional
     public void removeAllowedEmail(Long id) {
         AllowedEmail allowedEmail = allowedEmailRepository.findById(id).orElseThrow(()
                 -> new EntityNotFoundException(
