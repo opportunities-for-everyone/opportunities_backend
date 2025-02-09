@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-documents_table
+      author: shastkiv
+      changes:
+        - createTable:
+            tableName: documents
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: file_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dropbox_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: mime_type
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_size
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: uploaded_at
+                  type: datetime
+                  constraints:
+                    nullable: false
