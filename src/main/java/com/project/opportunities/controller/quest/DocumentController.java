@@ -30,7 +30,10 @@ public class DocumentController {
 
     @Operation(
             summary = "Get report documents",
-            description = "Retrieve a paginated list of all report documents available for public viewing."
+            description = """
+                    Retrieve a paginated list of all report documents
+                    available for public viewing.
+                    """
     )
     @ApiResponse(
             responseCode = "200",
@@ -45,7 +48,10 @@ public class DocumentController {
 
     @Operation(
             summary = "Get founding documents",
-            description = "Retrieve a paginated list of all founding documents available for public viewing."
+            description = """
+                    Retrieve a paginated list of all founding documents
+                    available for public viewing.
+                    """
     )
     @ApiResponse(
             responseCode = "200",

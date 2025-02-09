@@ -3,6 +3,7 @@ package com.project.opportunities.controller.admin;
 import com.project.opportunities.domain.dto.documents.request.UploadDocumentDto;
 import com.project.opportunities.domain.model.Document;
 import com.project.opportunities.service.core.interfaces.DocumentService;
+import com.project.opportunities.validation.document.ValidDocument;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,8 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,7 +36,10 @@ public class AdminDocumentController {
 
     @Operation(
             summary = "Upload new document",
-            description = "Upload a new document with metadata. Only accessible by super administrators."
+            description = """
+                    Upload a new document with metadata.
+                    Only accessible by super administrators.
+                    """
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -60,15 +62,17 @@ public class AdminDocumentController {
     public void uploadDocument(
             @Valid @RequestPart("document") UploadDocumentDto dto,
             @Valid
-            @NotNull(message = "File is required")
-            @Size(max = 10485760, message = "File size must not exceed 10MB")
+            @ValidDocument
             @RequestPart("file") MultipartFile file) {
         documentService.uploadDocument(dto, file);
     }
 
     @Operation(
             summary = "Delete document",
-            description = "Delete an existing document by its ID. Only accessible by super administrators."
+            description = """
+                    Delete an existing document by its ID.
+                    Only accessible by super administrators.
+                    """
     )
     @ApiResponses(value = {
             @ApiResponse(
