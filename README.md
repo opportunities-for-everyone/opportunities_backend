@@ -1,338 +1,112 @@
-# API Documentation
+# Administrative API Documentation
 
-## Authentication & Authorization
-### Registration Flow
-**Endpoint:** `POST /auth/registration`  
-**Access:** Public  
-**Consumes:** `multipart/form-data`
+This document provides detailed information about the administrative endpoints available in the Opportunities project API. These endpoints are designed for administrators to manage various aspects of the system.
 
-**Flow:**
-1. User submits registration data with avatar image
-2. System validates email uniqueness
-3. Creates new User entity
-4. Encodes password for security
-5. Uploads avatar via ImageService
-6. Assigns appropriate roles (ADMIN/EDITOR)
-7. Saves user to database
-8. Returns UserResponseDto with user details
+## Table of Contents
+- [User Management](#user-management)
+- [Allowed Emails Management](#allowed-emails-management)
+- [News Management](#news-management)
+- [Documents Management](#documents-management)
+- [Donation Management](#donation-management)
+- [Partners Management](#partners-management)
+- [Project Management](#project-management)
+- [Volunteer Management](#volunteer-management)
+- [Telegram Integration](#telegram-integration)
 
-### Login Flow
-**Endpoint:** `POST /auth/login`  
-**Access:** Public
+## User Management
 
-**Flow:**
-1. User submits credentials (email/password)
-2. System authenticates credentials
-3. Generates authentication token
-4. Returns UserLoginResponseDto with token
+**Base URL**: `/admin/users`
+
+| Endpoint | Method | Description | Required Role | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/{id}` | DELETE | Permanently removes a user account from the system | SUPER_ADMIN | 204 (Success), 404 (Not Found) |
+| `/` | PUT | Updates basic information for a user account | SUPER_ADMIN, ADMIN, EDITOR | 200 (Success), 400 (Bad Request), 404 (Not Found) |
+| `/image` | PUT | Updates the avatar/profile image for a user account | SUPER_ADMIN, ADMIN, EDITOR | 200 (Success), 400 (Bad Request), 404 (Not Found) |
+
+## Allowed Emails Management
+
+**Base URL**: `/admin/allowed_emails`
+
+| Endpoint | Method | Description | Required Role | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/` | POST | Adds an email to the allowed email list for registration | SUPER_ADMIN | 201 (Created), 400 (Bad Request), 403 (Forbidden) |
+| `/` | GET | Retrieves a paginated list of all allowed emails | SUPER_ADMIN | 200 (Success), 403 (Forbidden) |
+| `/{id}` | DELETE | Deletes an allowed email from the list by its ID | SUPER_ADMIN | 200 (Success), 404 (Not Found), 403 (Forbidden) |
 
 ## News Management
 
-### Public Endpoints
+**Base URL**: `/admin/news`
 
-#### Get All News
-**Endpoint:** `GET /public/news`  
-**Access:** Public
+| Endpoint | Method | Description | Required Role | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/` | POST | Creates a new news article with title, content, and cover image | SUPER_ADMIN, ADMIN, EDITOR | 200 (Success), 400 (Bad Request), 403 (Forbidden) |
+| `/{id}` | PUT | Updates title and content of an existing news article | SUPER_ADMIN, ADMIN, EDITOR | 200 (Success), 400 (Bad Request), 403 (Forbidden), 404 (Not Found) |
+| `/image/{id}` | PUT | Updates the cover image of an existing news article | SUPER_ADMIN, ADMIN, EDITOR | 200 (Success), 400 (Bad Request), 403 (Forbidden), 404 (Not Found) |
+| `/{id}` | DELETE | Deletes an existing news article by its ID | SUPER_ADMIN, ADMIN, EDITOR | 204 (No Content), 403 (Forbidden), 404 (Not Found) |
 
-**Flow:**
-1. Accepts pagination parameters
-2. Retrieves paginated list of news articles
-3. Returns Page<NewsResponseDto>
+## Documents Management
 
-#### Get News by ID
-**Endpoint:** `GET /public/news/{id}`  
-**Access:** Public
+**Base URL**: `/admin/documents`
 
-**Flow:**
-1. Validates news ID exists
-2. Retrieves specific news article
-3. Returns NewsResponseDto
-
-### Admin Endpoints
-
-#### Create News
-**Endpoint:** `POST /admin/news`  
-**Access:** ADMIN role  
-**Consumes:** `multipart/form-data`
-
-**Flow:**
-1. Receives news content and cover image
-2. Validates input data
-3. Uploads cover image via ImageService
-4. Creates new News entity
-5. Sets creation timestamp and author
-6. Saves to database
-7. Returns NewsResponseDto
-
-#### Update News Content
-**Endpoint:** `PUT /admin/news/{id}`  
-**Access:** EDITOR role
-
-**Flow:**
-1. Validates news exists
-2. Updates title and content
-3. Saves changes
-4. Returns updated NewsResponseDto
-
-#### Update News Image
-**Endpoint:** `PUT /admin/news/image/{id}`  
-**Access:** EDITOR role  
-**Consumes:** `multipart/form-data`
-
-**Flow:**
-1. Validates news exists
-2. Uploads new image via ImageService
-3. Updates news with new image URL
-4. Returns updated NewsResponseDto
-
-#### Delete News
-**Endpoint:** `DELETE /admin/news/{id}`  
-**Access:** EDITOR role
-
-**Flow:**
-1. Validates news exists
-2. Deletes news article
-3. Returns 204 No Content
-
-## Partner Management
-
-### Public Endpoints
-
-#### Get Partners List
-**Endpoint:** `GET /public/partners`  
-**Access:** Public
-
-**Flow:**
-1. Accepts pagination parameters
-2. Returns paginated list of partner general info
-
-#### Get Partner Details
-**Endpoint:** `GET /public/partners/{id}`  
-**Access:** Public
-
-**Flow:**
-1. Validates partner exists
-2. Returns detailed partner information
-
-#### Submit Partner Application
-**Endpoint:** `POST /public/partners`  
-**Access:** Public  
-**Consumes:** `multipart/form-data`
-
-**Flow:**
-1. Receives partner details and logo
-2. Uploads logo via ImageService
-3. Creates Partner entity with PENDING status
-4. Creates associated Director entity
-5. Saves to database
-
-### Admin Endpoints
-
-#### Get Pending Partners
-**Endpoint:** `GET /admin/partners`  
-**Access:** ADMIN role
-
-**Flow:**
-1. Retrieves paginated list of pending partner applications
-2. Returns Page<PartnerAllInfoDto>
-
-#### Update Partner Status
-**Endpoint:** `PATCH /admin/partners/{id}`  
-**Access:** ADMIN role
-
-**Flow:**
-1. Validates partner exists
-2. Updates partner status
-3. Returns updated PartnerAllInfoDto
-
-#### Add Partner Directly
-**Endpoint:** `POST /admin/partners`  
-**Access:** ADMIN role  
-**Consumes:** `multipart/form-data`
-
-**Flow:**
-1. Receives partner details and logo
-2. Uploads logo via ImageService
-3. Creates Partner entity with ACTIVE status
-4. Creates associated Director entity
-5. Saves to database
-6. Returns PartnerAllInfoDto
-
-## Project Management
-
-### Public Endpoints
-
-#### Get Project by ID
-**Endpoint:** `GET /public/projects/{id}`  
-**Access:** Public
-
-**Flow:**
-1. Validates project exists
-2. Returns ProjectResponseDto
-
-#### Get All Projects
-**Endpoint:** `GET /public/projects/all`  
-**Access:** Public
-
-**Flow:**
-1. Accepts pagination parameters
-2. Returns paginated list of all projects
-
-#### Get Active Projects
-**Endpoint:** `GET /public/projects/active`  
-**Access:** Public
-
-**Flow:**
-1. Accepts pagination parameters
-2. Returns paginated list of active projects
-
-#### Get Successful Projects
-**Endpoint:** `GET /public/projects/successful`  
-**Access:** Public
-
-**Flow:**
-1. Accepts pagination parameters
-2. Returns paginated list of completed successful projects
-
-#### Generate Project Donation Payment
-**Endpoint:** `POST /public/projects/{projectId}/donate`  
-**Access:** Public
-
-**Flow:**
-1. Validates project exists and is active
-2. Creates payment form via PaymentGenerationService
-3. Returns HTML payment form
-
-### Admin Endpoints
-
-#### Create Project
-**Endpoint:** `POST /admin/projects`  
-**Access:** ADMIN role  
-**Consumes:** `multipart/form-data`
-
-**Flow:**
-1. Receives project details and image
-2. Validates input data
-3. Uploads project image
-4. Creates Project entity
-5. Saves to database
-6. Returns ProjectResponseDto
-
-#### Update Project Status
-**Endpoint:** `PATCH /admin/projects/{id}/status`  
-**Access:** ADMIN role
-
-**Flow:**
-1. Validates project exists
-2. Updates project status
-3. Returns updated ProjectResponseDto
-
-#### Get Project Donations
-**Endpoint:** `GET /admin/projects/{id}/donations`  
-**Access:** ADMIN role
-
-**Flow:**
-1. Validates project exists
-2. Returns paginated list of project donations
+| Endpoint | Method | Description | Required Role | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/` | POST | Adding a new document URL to the system | SUPER_ADMIN | 201 (Created), 400 (Bad Request), 403 (Forbidden) |
+| `/{id}` | DELETE | Delete an existing document by its ID | SUPER_ADMIN | 204 (No Content), 403 (Forbidden), 404 (Not Found) |
 
 ## Donation Management
 
-### Public Endpoints
+**Base URL**: `/admin/donations`
 
-#### Generate General Donation Form
-**Endpoint:** `POST /public/donations`  
-**Access:** Public
+| Endpoint | Method | Description | Required Role | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/` | GET | Retrieves a paginated list of general donations | SUPER_ADMIN, ADMIN | 200 (Success), 403 (Forbidden) |
 
-**Flow:**
-1. Receives donation details
-2. Generates payment form via PaymentGenerationService
-3. Returns HTML payment form
+## Partners Management
 
-### Admin Endpoints
+**Base URL**: `/admin/partners`
 
-#### Get General Donations
-**Endpoint:** `GET /admin/donations`  
-**Access:** ADMIN role
+| Endpoint | Method | Description | Required Role | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/` | GET | Fetches a paginated list of partners whose applications are pending approval | SUPER_ADMIN, ADMIN | 200 (Success) |
+| `/{id}` | PATCH | Updates the status of a specific partner by ID | SUPER_ADMIN, ADMIN | 200 (Success), 404 (Not Found), 400 (Bad Request) |
+| `/` | POST | Creates and adds a new partner to the system | SUPER_ADMIN, ADMIN | 201 (Created), 400 (Bad Request) |
+| `/all` | GET | Fetches a paginated list of all partners | SUPER_ADMIN, ADMIN, EDITOR | 200 (Success) |
 
-**Flow:**
-1. Accepts pagination parameters
-2. Returns paginated list of general donations
+## Project Management
+
+**Base URL**: `/admin/projects`
+
+| Endpoint | Method | Description | Required Role | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/` | POST | Creates a new project based on the provided request | SUPER_ADMIN, ADMIN, EDITOR | 201 (Created), 400 (Bad Request) |
+| `/{id}/status` | PATCH | Updates the status of the project with the given ID | SUPER_ADMIN, ADMIN, EDITOR | 200 (Success), 404 (Not Found), 400 (Bad Request) |
+| `/{id}/donations` | GET | Retrieves a paginated list of donations for a specific project | SUPER_ADMIN, ADMIN | 200 (Success), 404 (Not Found), 403 (Forbidden) |
 
 ## Volunteer Management
 
-### Public Endpoints
+**Base URL**: `/admin/volunteers`
 
-#### Submit Volunteer Application
-**Endpoint:** `POST /public/volunteers`  
-**Access:** Public  
-**Consumes:** `multipart/form-data`
+| Endpoint | Method | Description | Required Role | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/` | POST | Allows administrators to directly add a new volunteer to the system | SUPER_ADMIN, ADMIN | 201 (Created), 400 (Bad Request), 403 (Forbidden) |
+| `/{id}` | PATCH | Allows administrators to update the status of an existing volunteer | SUPER_ADMIN, ADMIN, EDITOR | 200 (Success), 400 (Bad Request), 403 (Forbidden), 404 (Not Found) |
 
-**Flow:**
-1. Receives volunteer details and avatar
-2. Validates input data
-3. Uploads avatar via ImageService
-4. Creates Volunteer entity with PENDING status
-5. Saves to database
-6. Returns VolunteerResponseDto
+## Telegram Integration
 
-#### Get Active Volunteers
-**Endpoint:** `GET /public/volunteers/active`  
-**Access:** Public
+**Base URL**: `/admin/telegram`
 
-**Flow:**
-1. Accepts pagination parameters
-2. Returns paginated list of active volunteers
+| Endpoint | Method | Description | Required Role | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/notifyMe` | GET | Allows administrators to get a link to the Telegram bot for receiving notifications about website operations | SUPER_ADMIN, ADMIN, EDITOR | 200 (Success), 401 (Unauthorized) |
 
-#### Get Pending Volunteers
-**Endpoint:** `GET /public/volunteers/pending`  
-**Access:** Public
+---
 
-**Flow:**
-1. Accepts pagination parameters
-2. Returns paginated list of pending volunteer applications
+## Role Hierarchy
 
-#### Get Rejected Volunteers
-**Endpoint:** `GET /public/volunteers/rejected`  
-**Access:** Public
+The API uses a role-based access control system with the following hierarchy:
 
-**Flow:**
-1. Accepts pagination parameters
-2. Returns paginated list of rejected volunteer applications
+1. **SUPER_ADMIN**: Has complete access to all administrative functions
+2. **ADMIN**: Has access to most administrative functions except the most sensitive ones
+3. **EDITOR**: Has limited administrative access focused on content management
 
-### Admin Endpoints
-
-#### Add Volunteer Directly
-**Endpoint:** `POST /admin/volunteers`  
-**Access:** ADMIN role  
-**Consumes:** `multipart/form-data`
-
-**Flow:**
-1. Receives volunteer details and avatar
-2. Uploads avatar via ImageService
-3. Creates Volunteer entity with ACTIVE status
-4. Saves to database
-5. Returns VolunteerResponseDto
-
-#### Update Volunteer Status
-**Endpoint:** `PATCH /admin/volunteers/{id}`  
-**Access:** ADMIN role
-
-**Flow:**
-1. Validates volunteer exists
-2. Updates volunteer status
-3. Returns updated VolunteerResponseDto
-
-## Payment Processing
-
-### Payment Callback
-**Endpoint:** `POST /public/payment/callback`  
-**Access:** Public (Hidden - for payment system use)
-
-**Flow:**
-1. Receives payment data and signature
-2. Validates payment signature
-3. Parses payment data
-4. Verifies payment status
-5. Routes to appropriate donation processor (Project/General)
-6. Updates relevant entities
-7. Handles any errors with logging
+All administrative endpoints require authentication and proper authorization based on the user's role.
