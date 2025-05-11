@@ -1,3 +1,42 @@
+## 🛠️ Technologies Used
+
+### Programming Language
+* **Java 17:** The version of Java used for building and running the application, offering features like enhanced pattern matching, records, and improved performance.
+
+### Backend Framework
+* **Spring Boot 3.3.4:** Main framework for building the backend API with embedded Tomcat server support.
+
+### Database
+* **MySQL:** Relational database management system for storing application data.
+* **H2:** In-memory database used for testing purposes.
+* **Liquibase:** Database version control and schema management tool.
+
+### Security
+* **Spring Security:** Provides security services, including authentication and authorization, for the application.
+* **JWT (JSON Web Tokens):** For secure user authentication using tokens.
+
+### ORM and Persistence
+* **Spring Data JPA:** Simplifies data access and integration with the database through JPA.
+* **Hibernate Validator:** Used for validating Java beans based on constraints.
+
+### Code Quality & Static Analysis
+* **Checkstyle:** Ensures code quality by enforcing a set of coding standards.
+* **Lombok:** Reduces boilerplate code with annotations like @Getter, @Setter, and @ToString.
+* **MapStruct:** Simplifies object mapping between Java beans.
+
+* **JUnit 5:** Framework for writing and running tests.
+* **TestContainers:** Provides lightweight, disposable containers for integration testing.
+* **Spring Security Test:** Tools for testing security aspects in Spring applications.
+### Documentation
+* **Springdoc OpenAPI:** Automatically generates OpenAPI documentation for RESTful APIs.
+### Build & Packaging
+* **Maven:** Dependency management and build tool.
+* **Spring Boot Maven Plugin:** For packaging the application into an executable JAR file.
+### Docker
+* **Docker Compose:** Manages multi-container Docker applications, useful for local development and testing.
+
+***
+
 # Administrative API Documentation
 
 This document provides detailed information about the administrative endpoints available in the Opportunities project API. These endpoints are designed for administrators to manage various aspects of the system.
