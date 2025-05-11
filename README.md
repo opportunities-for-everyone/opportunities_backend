@@ -110,3 +110,92 @@ The API uses a role-based access control system with the following hierarchy:
 3. **EDITOR**: Has limited administrative access focused on content management
 
 All administrative endpoints require authentication and proper authorization based on the user's role.
+
+
+# Public API Documentation
+
+## Table of Contents
+- [Authentication](#authentication)
+- [Documents Management](#documents-management)
+- [Donation Management](#donation-management)
+- [News Management](#news-management)
+- [Partners Management](#partners-management)
+- [Project Management](#project-management)
+- [User Management](#user-management)
+- [Volunteer Management](#volunteer-management)
+
+## Authentication
+
+**Base URL**: `/auth`
+
+| Endpoint | Method | Description | Request Format | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/registration` | POST | Registers a new team member with the provided information | multipart/form-data | 201 (Created), 400 (Bad Request) |
+| `/login` | POST | Authenticates a team member using their credentials | JSON | 200 (Success), 401 (Unauthorized) |
+
+## Documents Management
+
+**Base URL**: `/public/documents`
+
+| Endpoint | Method | Description | Parameters | Response Codes |
+|----------|--------|-------------|------------|----------------|
+| `/reports` | GET | Retrieves a paginated list of all report documents available for public viewing | Pageable | 200 (Success) |
+| `/foundings` | GET | Retrieves a paginated list of all founding documents available for public viewing | Pageable | 200 (Success) |
+
+## Donation Management
+
+**Base URL**: `/public/donations`
+
+| Endpoint | Method | Description | Request Format | Response Codes |
+|----------|--------|-------------|--------------|----------------|
+| `/` | POST | Generates a payment form for donation based on the provided details | JSON | 200 (Success), 400 (Bad Request) |
+
+## News Management
+
+**Base URL**: `/public/news`
+
+| Endpoint | Method | Description | Parameters | Response Codes |
+|----------|--------|-------------|------------|----------------|
+| `/` | GET | Retrieves a paginated list of all news articles available for public viewing | Pageable | 200 (Success) |
+| `/{id}` | GET | Retrieves a specific news article by its ID | Path variable: id | 200 (Success), 404 (Not Found) |
+
+## Partners Management
+
+**Base URL**: `/public/partners`
+
+| Endpoint | Method | Description | Parameters/Format | Response Codes |
+|----------|--------|-------------|-------------------|----------------|
+| `/` | GET | Fetches a paginated list of general partner information | Pageable | 200 (Success) |
+| `/{id}` | GET | Fetches detailed information about a specific partner by ID | Path variable: id | 200 (Success), 404 (Not Found) |
+| `/` | POST | Submits a new partner application | multipart/form-data | 201 (Created), 400 (Bad Request) |
+
+## Project Management
+
+**Base URL**: `/public/projects`
+
+| Endpoint | Method | Description | Parameters | Response Codes |
+|----------|--------|-------------|------------|----------------|
+| `/{id}` | GET | Retrieves a single project by its unique identifier | Path variable: id | 200 (Success), 404 (Not Found) |
+| `/all` | GET | Retrieves a paginated list of all projects | Pageable | 200 (Success) |
+| `/active` | GET | Retrieves a paginated list of projects that are currently active | Pageable | 200 (Success) |
+| `/successful` | GET | Retrieves a paginated list of projects that have been successfully completed | Pageable | 200 (Success) |
+| `/{projectId}/donate` | POST | Generates a payment link for a specific project based on donation details | Path variable: projectId, JSON body | 200 (Success), 400 (Bad Request), 404 (Not Found), 500 (Server Error) |
+
+## User Management
+
+**Base URL**: `/public/users`
+
+| Endpoint | Method | Description | Parameters | Response Codes |
+|----------|--------|-------------|------------|----------------|
+| `/` | GET | Retrieves a paginated list of team members with general information | Pageable | 200 (Success), 400 (Bad Request) |
+
+## Volunteer Management
+
+**Base URL**: `/public/volunteers`
+
+| Endpoint | Method | Description | Parameters/Format | Response Codes |
+|----------|--------|-------------|-------------------|----------------|
+| `/` | POST | Creates a new volunteer application with the provided information | multipart/form-data | 201 (Created), 400 (Bad Request) |
+| `/active` | GET | Returns a paginated list of all active volunteers | Pageable | 200 (Success) |
+| `/pending` | GET | Returns a paginated list of all pending volunteer applications | Pageable | 200 (Success) |
+| `/rejected` | GET | Returns a paginated list of all rejected volunteer applications | Pageable | 200 (Success) |
