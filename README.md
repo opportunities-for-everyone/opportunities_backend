@@ -13,7 +13,7 @@ The Opportunities Platform is a comprehensive system for managing assistance pro
 * **Spring Boot 3.3.4:** Main framework for building the backend API with embedded Tomcat server support.
 
 ## Database
-* **MySQL:** Relational database management system for storing application data.
+* **PostgreSQL:** Relational database management system for storing application data.
 * **H2:** In-memory database used for testing purposes.
 * **Liquibase:** Database version control and schema management tool.
 
