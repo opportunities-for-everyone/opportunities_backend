@@ -1,3 +1,9 @@
+# Opportunities Platform - Back-end API
+## Short Description
+The Opportunities Platform is a comprehensive system for managing assistance projects, volunteers, and partners with a complete set of administrative and public APIs. Built on Java 17 and Spring Boot 3.3.4, this platform provides secure management of donations, news, documents, and users through a role-based authentication system. The system uses MySQL for data storage, includes Telegram integration, supports project management, and provides robust endpoints for both administrative and public usage, all documented with OpenAPI and secured with JWT authentication.
+
+***
+
 # 🛠️ Technologies Used
 
 ## Programming Language
