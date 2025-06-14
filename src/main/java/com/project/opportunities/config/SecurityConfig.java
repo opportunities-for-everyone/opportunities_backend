@@ -47,13 +47,15 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers(
                                         "/auth/**",
+                                        "/api",
                                         "/api/auth/**",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html",
                                         "/v3/api-docs/**",
                                         "/swagger-resources/**",
                                         "/webjars/**",
-                                        "/public/**")
+                                        "/public/**",
+                                        "/")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
@@ -89,21 +91,11 @@ public class SecurityConfig {
         configuration.setAllowedOriginPatterns(List.of(
                 "http://localhost:[*]",
                 "http://127.0.0.1:[*]",
-                "https://pasha1932.github.io/",
-                "http://localhost:8080",
-                "https://backend-api.space"
+                "https://charity-app-frontend.onrender.com"
         ));
         configuration.setAllowedMethods(
                 Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"));
-        configuration.setAllowedHeaders(Arrays.asList(
-                "Authorization",
-                "Content-Type",
-                "X-Requested-With",
-                "Accept",
-                "Origin",
-                "Access-Control-Request-Method",
-                "Access-Control-Request-Headers"
-        ));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(Arrays.asList(
                 "Access-Control-Allow-Origin",
                 "Access-Control-Allow-Credentials"
