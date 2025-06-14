@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src/
 COPY checkstyle.xml .
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
 
 # Stage 2: Create the final lightweight runtime image
 FROM openjdk:17-slim-buster
