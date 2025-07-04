@@ -31,7 +31,7 @@ public class PaymentGenerationServiceImpl implements PaymentGenerationService {
         log.info("Generating general donation payment form for donor: {}", donationDto.donorName());
         Map<String, String> params = prepareCommonParams(
                 donationDto, Donation.DonationType.GENERAL_DONATION);
-        params.put("description", "Загальний благодійний внесок");
+        params.put("description", "Благодійний внесок на виконання статутної діяльності");
         params.put("dae", generateAdditionalData(donationDto, Optional.empty()));
         String form = liqPay.cnb_form(params);
         log.info("General payment form generated successfully.");
@@ -44,7 +44,7 @@ public class PaymentGenerationServiceImpl implements PaymentGenerationService {
                 donationDto.donorName(), donationId);
         Map<String, String> params = prepareCommonParams(
                 donationDto, Donation.DonationType.PROJECT_DONATION);
-        params.put("description", "Благодійний внесок на проект ID:%s".formatted(donationId));
+        params.put("description", "Благодійний внесок на виконання статутної діяльності".formatted(donationId));
         params.put("dae", generateAdditionalData(donationDto, Optional.of(donationId)));
         String form = liqPay.cnb_form(params);
         log.info("Project payment form generated successfully for project ID: {}", donationId);
